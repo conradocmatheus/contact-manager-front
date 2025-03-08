@@ -15,6 +15,6 @@ export class UserService {
   }
 
   getUserById(id: number) {
-    return this.http.get(this.baseUrl + '/users/' + id);
+    return this.http.get(this.baseUrl + id);
   }
 }
