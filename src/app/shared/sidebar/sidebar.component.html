@@ -1,1 +1,13 @@
-<p>sidebar works!</p>
+<aside class="menu is-hidden-mobile" [class.is-active]="isSidebarVisible">
+  <p class="menu-label">Menu</p>
+  <ul class="menu-list">
+    <li><a href="#">Home</a></li>
+    <li><a href="#">Contatos</a></li>
+    <li><a href="#">Perfil</a></li>
+    <li><a href="#">Sobre</a></li>
+  </ul>
+</aside>
+
+<div class="navbar-item is-hidden-desktop">
+  <button class="button is-info" (click)="toggleSidebar()">☰</button>
+</div>
