@@ -54,6 +54,8 @@
   border-radius: 4px;
   box-shadow: none;
   font-size: 1rem;
+  width: 300px;
+  max-width: 100%
 }
 
 .icon.is-small.is-left {
