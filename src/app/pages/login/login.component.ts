@@ -30,8 +30,6 @@ export class LoginComponent {
     this.titleService.setTitle('Login');
   }
 
-
-
   onSubmit() {
     if (this.loginForm.valid) {
       this.router.navigate(['/home']);
