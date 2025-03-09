@@ -1,52 +1,32 @@
-aside.menu {
-  width: 250px;
-  height: 100vh;
-  background-color: #fff;
-  padding: 20px;
-  border-right: 1px solid #ddd;
-  box-shadow: 4px 0 10px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
+.menu {
+  position: sticky;
+  display: inline-block;
+  vertical-align: top;
+  max-height: 100vh;
+  overflow-y: auto;
+  width: 200px;
+  top: 0;
+  bottom: 0;
+  padding: 30px;
 }
 
-.menu-label {
-  font-weight: bold;
-  color: #3273dc;
-  text-transform: uppercase;
-  margin-bottom: 20px;
-  font-size: 1.1rem;
-  letter-spacing: 1px;
+.is-active {
+  display: block;
 }
 
-.menu-list li a {
-  display: flex;
-  align-items: center;
-  color: #4a4a4a;
-  padding: 14px 15px;
-  margin-bottom: 5px;
-  border-radius: 5px;
-  font-size: 1rem;
-  transition: background-color 0.3s ease, color 0.3s ease;
+.navbar-item {
+  display: none;
 }
 
-.menu-list li a:hover {
-  background-color: #3273dc;
-  color: white;
-  cursor: pointer;
-}
-
-.menu-list li a i {
-  margin-right: 10px;
-}
-
-
-@media (max-width: 768px) {
-  aside.menu {
+@media screen and (max-width: 768px) {
+  .menu {
+    position: relative;
     width: 100%;
-    padding: 10px;
+    height: auto;
+    margin-bottom: 20px;
   }
 
-  .menu-label {
-    font-size: 1rem;
-    margin-bottom: 10px;
+  .navbar-item {
+    display: block;
   }
 }

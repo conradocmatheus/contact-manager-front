@@ -1,15 +1,9 @@
-<aside class="menu is-hidden-mobile" [class.is-active]="isSidebarVisible">
+<aside class="menu">
   <p class="menu-label">Contact Manager</p>
   <ul class="menu-list">
-    <li><a href="#"><i class="fas fa-home"></i> Home</a></li>
-    <li><a href="#"><i class="fas fa-address-book"></i> Contatos</a></li>
-    <li><a href="#"><i class="fas fa-user"></i> Perfil</a></li>
-    <li><a href="#"><i class="fas fa-info-circle"></i> Sobre</a></li>
+    <li><a routerLink="/home" routerLinkActive="is-active" [routerLinkActiveOptions]="{exact: true}">Home</a></li>
+    <li><a routerLink="/contacts" routerLinkActive="is-active" [routerLinkActiveOptions]="{exact: true}">Contatos</a></li>
+    <li><a routerLink="/profile" routerLinkActive="is-active" [routerLinkActiveOptions]="{exact: true}">Perfil</a></li>
+    <li><a routerLink="/about" routerLinkActive="is-active" [routerLinkActiveOptions]="{exact: true}">Sobre</a></li>
   </ul>
 </aside>
-
-<div class="navbar-item is-hidden-desktop">
-  <button class="button is-info" (click)="toggleSidebar()">
-    <i class="fas fa-bars"></i>
-  </button>
-</div>
