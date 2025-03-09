@@ -4,10 +4,16 @@
   vertical-align: top;
   max-height: 100vh;
   overflow-y: auto;
-  width: 200px;
+  width: 250px;
   top: 0;
   bottom: 0;
   padding: 30px;
+}
+
+.menu-label {
+  font-size: 1rem;
+  font-weight: bold;
+  color: black;
 }
 
 .is-active {

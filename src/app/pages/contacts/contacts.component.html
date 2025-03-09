@@ -1,63 +1,63 @@
-<h1 class="title is-2">Lista de Contatos</h1>
+<div class="container is-fluid">
+  <h1 class="title is-2">Lista de Contatos</h1>
 
-<div class="field is-grouped">
-  <div class="control has-icons-left">
-    <input
-      class="input"
-      type="text"
-      placeholder="Pesquisar por nome ou email..."
-      [(ngModel)]="searchTerm"
-      aria-label="Pesquisar contato">
-    <span class="icon is-small is-left">
-      <i class="fas fa-search" aria-hidden="true"></i>
-    </span>
-  </div>
-
-  <div class="control is-expanded"></div>
-
-  <div class="control">
-    <button class="button is-link" aria-label="Importar contatos">
-      <span class="icon is-small">
-        <i class="fas fa-file-import" aria-hidden="true"></i>
+  <div class="field is-grouped">
+    <div class="control has-icons-left is-expanded">
+      <input
+        class="input"
+        type="text"
+        placeholder="Pesquisar por nome ou email..."
+        [(ngModel)]="searchTerm"
+        aria-label="Pesquisar contato">
+      <span class="icon is-small is-left">
+        <i class="fas fa-search" aria-hidden="true"></i>
       </span>
-      <span>Importar</span>
-    </button>
+    </div>
+
+    <div class="control">
+      <button class="button is-link" aria-label="Importar contatos">
+        <span class="icon is-small">
+          <i class="fas fa-file-import" aria-hidden="true"></i>
+        </span>
+        <span>Importar</span>
+      </button>
+    </div>
+
+    <div class="control">
+      <button class="button is-primary" aria-label="Criar novo contato">
+        <span class="icon is-small">
+          <i class="fas fa-plus" aria-hidden="true"></i>
+        </span>
+        <span>Criar Contato</span>
+      </button>
+    </div>
   </div>
 
-  <div class="control">
-    <button class="button is-primary" aria-label="Criar novo contato">
-      <span class="icon is-small">
-        <i class="fas fa-plus" aria-hidden="true"></i>
-      </span>
-      <span>Criar Contato</span>
-    </button>
+  <div class="table-container is-fullwidth">
+    <table class="table is-striped is-hoverable is-fullwidth">
+      <thead>
+      <tr>
+        <th>Nome</th>
+        <th>Email</th>
+        <th>Telefone</th>
+        <th class="has-text-center">Ações</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let contact of contacts | filter:searchTerm; let i = index" [class.is-even]="i % 2 === 0">
+        <td>{{ contact.name }}</td>
+        <td>{{ contact.email }}</td>
+        <td>{{ contact.phone | phoneFormat }}</td>
+        <td class="actions">
+          <button class="button is-small is-info" (click)="editContact(contact)" aria-label="Editar contato">
+            <i class="fas fa-edit" aria-hidden="true"></i>
+          </button>
+          <button class="button is-small is-danger" (click)="deleteContact(contact)" aria-label="Deletar contato">
+            <i class="fas fa-trash-alt" aria-hidden="true"></i>
+          </button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
   </div>
-</div>
-
-<div class="table-container">
-  <table class="table is-striped is-hoverable is-fullwidth">
-    <thead>
-    <tr>
-      <th>Nome</th>
-      <th>Email</th>
-      <th>Telefone</th>
-      <th class="has-text-center">Ações</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr *ngFor="let contact of contacts | filter:searchTerm; let i = index" [class.is-even]="i % 2 === 0">
-      <td>{{ contact.name }}</td>
-      <td>{{ contact.email }}</td>
-      <td>{{ contact.phone | phoneFormat }}</td>
-      <td class="actions">
-        <button class="button is-small is-info" (click)="editContact(contact)" aria-label="Editar contato">
-          <i class="fas fa-edit" aria-hidden="true"></i>
-        </button>
-        <button class="button is-small is-danger" (click)="deleteContact(contact)" aria-label="Deletar contato">
-          <i class="fas fa-trash-alt" aria-hidden="true"></i>
-        </button>
-      </td>
-    </tr>
-    </tbody>
-  </table>
 </div>
