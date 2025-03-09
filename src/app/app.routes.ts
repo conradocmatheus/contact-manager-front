@@ -6,7 +6,7 @@ import { FavoritesComponent } from './pages/favorites/favorites.component';
 import { UserProfileComponent } from './pages/user-profile/user-profile.component';
 
 export const routes: Routes = [
-  { path: '', redirectTo: '/login', pathMatch: 'full' },
+  { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'home', component: HomeComponent },
   { path: 'contacts', component: ContactsComponent },
