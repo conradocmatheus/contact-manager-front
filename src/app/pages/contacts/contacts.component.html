@@ -1,1 +1,48 @@
-<p>contacts works!</p>
+<h1 class="title is-2">Lista de Contatos</h1>
+
+<div class="field is-grouped">
+  <div class="control has-icons-left">
+    <input
+      class="input"
+      type="text"
+      placeholder="Buscar contato..."
+      [(ngModel)]="searchTerm">
+    <span class="icon is-small is-left">
+      <i class="fas fa-search"></i>
+    </span>
+  </div>
+  <div class="control">
+    <button class="button is-link">Importar</button>
+  </div>
+  <div class="control">
+    <button class="button is-primary">Criar Contato</button>
+  </div>
+</div>
+
+<div class="table-container">
+  <table class="table is-striped is-hoverable is-fullwidth">
+    <thead>
+    <tr>
+      <th>Nome</th>
+      <th>Email</th>
+      <th>Telefone</th>
+      <th>Ações</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let contact of contacts | filter:searchTerm">
+      <td>{{ contact.name }}</td>
+      <td>{{ contact.email }}</td>
+      <td>{{ contact.phone }}</td>
+      <td>
+        <button class="button is-small is-info" (click)="editContact(contact)">
+          <i class="fas fa-edit"></i>
+        </button>
+        <button class="button is-small is-danger" (click)="deleteContact(contact)">
+          <i class="fas fa-trash-alt"></i>
+        </button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
