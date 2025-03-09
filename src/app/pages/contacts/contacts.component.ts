@@ -4,13 +4,15 @@ import {Contact} from '../../models/contact';
 import {FormsModule} from '@angular/forms';
 import {NgForOf} from '@angular/common';
 import {FilterPipe} from '../../pipes/filter.pipe';
+import {PhoneFormatPipe} from '../../pipes/phone-format.pipe';
 
 @Component({
   selector: 'app-contacts',
   imports: [
     FormsModule,
     NgForOf,
-    FilterPipe
+    FilterPipe,
+    PhoneFormatPipe
   ],
   templateUrl: './contacts.component.html',
   styleUrl: './contacts.component.css'

@@ -48,7 +48,7 @@
     <tr *ngFor="let contact of contacts | filter:searchTerm; let i = index" [class.is-even]="i % 2 === 0">
       <td>{{ contact.name }}</td>
       <td>{{ contact.email }}</td>
-      <td>{{ contact.phone }}</td>
+      <td>{{ contact.phone | phoneFormat }}</td>
       <td class="actions">
         <button class="button is-small is-info" (click)="editContact(contact)" aria-label="Editar contato">
           <i class="fas fa-edit" aria-hidden="true"></i>
