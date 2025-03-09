@@ -1,13 +1,16 @@
 <aside class="menu is-hidden-mobile" [class.is-active]="isSidebarVisible">
-  <p class="menu-label">Menu</p>
+  <p class="menu-label">Contact Manager</p>
   <ul class="menu-list">
-    <li><a href="#">Home</a></li>
-    <li><a href="#">Contatos</a></li>
-    <li><a href="#">Perfil</a></li>
-    <li><a href="#">Sobre</a></li>
+    <li><a href="#"><i class="fas fa-home"></i> Home</a></li>
+    <li><a href="#"><i class="fas fa-address-book"></i> Contatos</a></li>
+    <li><a href="#"><i class="fas fa-user"></i> Perfil</a></li>
+    <li><a href="#"><i class="fas fa-info-circle"></i> Sobre</a></li>
   </ul>
 </aside>
 
+<!-- Botão para abrir a sidebar no mobile -->
 <div class="navbar-item is-hidden-desktop">
-  <button class="button is-info" (click)="toggleSidebar()">☰</button>
+  <button class="button is-info" (click)="toggleSidebar()">
+    <i class="fas fa-bars"></i> <!-- Ícone de menu hambúrguer -->
+  </button>
 </div>
