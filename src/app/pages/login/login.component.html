@@ -1,25 +1,31 @@
 <div class="login-container">
-  <mat-card>
-    <mat-card-header>
-      <mat-card-title>Login</mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-        <mat-form-field appearance="outline">
-          <mat-label>Email</mat-label>
-          <input matInput formControlName="email" type="email">
-          <mat-error *ngIf="loginForm.get('email')?.errors?.['required']">Email é obrigatório</mat-error>
-          <mat-error *ngIf="loginForm.get('email')?.errors?.['email']">Email inválido</mat-error>
-        </mat-form-field>
+  <div class="box">
+    <h1 class="title is-4 has-text-centered">LOGIN</h1>
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
 
-        <mat-form-field appearance="outline">
-          <mat-label>Senha</mat-label>
-          <input matInput formControlName="password" type="password">
-          <mat-error *ngIf="loginForm.get('password')?.errors?.['required']">Senha é obrigatória</mat-error>
-        </mat-form-field>
+      <div class="field">
+        <label class="label">Email</label>
+        <div class="control">
+          <input class="input" type="email" formControlName="email" placeholder="Digite seu email">
+        </div>
+        <p class="help is-danger" *ngIf="loginForm.get('email')?.errors?.['required']">Email é obrigatório</p>
+        <p class="help is-danger" *ngIf="loginForm.get('email')?.errors?.['email']">Email inválido</p>
+      </div>
 
-        <button mat-raised-button color="primary" type="submit" [disabled]="loginForm.invalid">Entrar</button>
-      </form>
-    </mat-card-content>
-  </mat-card>
+      <div class="field">
+        <label class="label">Senha</label>
+        <div class="control">
+          <input class="input" type="password" formControlName="password" placeholder="Digite sua senha">
+        </div>
+        <p class="help is-danger" *ngIf="loginForm.get('password')?.errors?.['required']">Senha é obrigatória</p>
+      </div>
+
+      <div class="field">
+        <div class="control">
+          <button class="button is-primary is-fullwidth" type="submit" [disabled]="loginForm.invalid">Entrar</button>
+        </div>
+      </div>
+
+    </form>
+  </div>
 </div>
