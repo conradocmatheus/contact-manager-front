@@ -3,7 +3,7 @@ import { LoginComponent } from './pages/login/login.component';
 import { SignupComponent } from './pages/signup/signup.component';
 import { HomeComponent } from './pages/home/home.component';
 import { ContactsComponent } from './pages/contacts/contacts.component';
-import { UserProfileComponent } from './pages/user-profile/user-profile.component';
+import { ProfileComponent } from './pages/user-profile/user-profile.component';
 import { AboutComponent } from './pages/about/about.component';
 import { EmptyLayoutComponent } from './shared/empty-layout/empty-layout.component';
 import { MainLayoutComponent } from './shared/main-layout/main-layout.component';
@@ -24,7 +24,7 @@ export const routes: Routes = [
     children: [
       { path: 'home', component: HomeComponent },
       { path: 'contacts', component: ContactsComponent },
-      { path: 'profile', component: UserProfileComponent },
+      { path: 'profile', component: ProfileComponent },
       { path: 'about', component: AboutComponent },
     ],
   },
