@@ -45,14 +45,12 @@ export class ProfileComponent implements OnInit {
 
     const { name, email } = this.profileForm.value;
 
-    // Aqui você pode chamar um método do AuthService para atualizar o perfil
     console.log('Perfil atualizado:', { name, email });
     alert('Perfil atualizado com sucesso!');
   }
 
   removeContacts(): void {
     if (confirm('Tem certeza que deseja remover todos os contatos?')) {
-      // Aqui você pode chamar um método para remover contatos
       console.log('Contatos removidos');
       alert('Contatos removidos com sucesso!');
     }
@@ -60,7 +58,6 @@ export class ProfileComponent implements OnInit {
 
   removeFavorites(): void {
     if (confirm('Tem certeza que deseja remover todos os favoritos?')) {
-      // Aqui você pode chamar um método para remover favoritos
       console.log('Favoritos removidos');
       alert('Favoritos removidos com sucesso!');
     }
