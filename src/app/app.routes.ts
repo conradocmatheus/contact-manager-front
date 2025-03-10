@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 import { LoginComponent } from './pages/login/login.component';
-//import { SignupComponent } from './pages/signup/signup.component';
+import { SignupComponent } from './pages/signup/signup.component';
 import { HomeComponent } from './pages/home/home.component';
 import { ContactsComponent } from './pages/contacts/contacts.component';
 import { FavoritesComponent } from './pages/favorites/favorites.component';
@@ -16,7 +16,7 @@ export const routes: Routes = [
     children: [
       { path: '', redirectTo: '/login', pathMatch: 'full' },
       { path: 'login', component: LoginComponent },
-      //{ path: 'signup', component: SignupComponent },
+      { path: 'signup', component: SignupComponent },
     ],
   },
   {
