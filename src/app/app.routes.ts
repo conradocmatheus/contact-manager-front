@@ -12,7 +12,7 @@ import { MainLayoutComponent } from './shared/main-layout/main-layout.component'
 export const routes: Routes = [
   {
     path: '',
-    component: EmptyLayoutComponent, // Layout sem sidebar
+    component: EmptyLayoutComponent,
     children: [
       { path: '', redirectTo: '/login', pathMatch: 'full' },
       { path: 'login', component: LoginComponent },
