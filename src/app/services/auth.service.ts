@@ -19,4 +19,30 @@ export class AuthService {
       })
     );
   }
+
+  login(email: string, password: string): Observable<any> {
+    return this.http.post(`${environment.apiUrl}/login`, { email, password }).pipe(
+      tap((res: any) =>{
+        localStorage.setItem('token', res.token);
+        localStorage.setItem('user', JSON.stringify(res.user));
+      })
+    );
+  }
+
+  isAuthenticated(): boolean {
+    return !!localStorage.getItem('token');
+  }
+
+  logout(): void {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+  }
+
+  getCurrentUser(): any {
+    const user = localStorage.getItem('user');
+    if (!user) {
+      return null;
+    }
+    return user;
+  }
 }
