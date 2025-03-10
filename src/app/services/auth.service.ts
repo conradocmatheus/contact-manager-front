@@ -12,7 +12,7 @@ export class AuthService {
   constructor(private http: HttpClient) {}
 
   signup(name: string, email: string, password: string): Observable<any> {
-    return this.http.post(`${environment.apiUrl}/signup`, { name, email, password }).pipe(
+    return this.http.post(`${environment.apiUrl}/auth/signup`, { name, email, password }).pipe(
       tap((res: any) =>{
         localStorage.setItem('token', res.token);
         localStorage.setItem('user', JSON.stringify(res.user));
@@ -21,7 +21,7 @@ export class AuthService {
   }
 
   login(email: string, password: string): Observable<any> {
-    return this.http.post(`${environment.apiUrl}/login`, { email, password }).pipe(
+    return this.http.post(`${environment.apiUrl}/auth/login`, { email, password }).pipe(
       tap((res: any) =>{
         localStorage.setItem('token', res.token);
         localStorage.setItem('user', JSON.stringify(res.user));
