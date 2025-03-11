@@ -29,6 +29,11 @@ export class AuthService {
     );
   }
 
+  updateCurrentUser(user: any): void {
+    const { password, ...userWithoutPassword } = user;
+    localStorage.setItem('user', JSON.stringify(userWithoutPassword));
+  }
+
   isAuthenticated(): boolean {
     return !!localStorage.getItem('token');
   }

@@ -22,8 +22,15 @@ export class UserService {
     return this.http.post<User>(this.apiUrl, user);
   }
 
-  update(id: number, user: User): Observable<User> {
-    return this.http.put<User>(`${this.apiUrl}/${id}`, user);
+  updateProfile(id: number, userData: { name: string, email: string }): Observable<any> {
+    return this.http.put(`${this.apiUrl}/${id}`, userData);
+  }
+
+  updatePassword(id: number, passwordData: {
+    currentPassword: string,
+    newPassword: string
+  }): Observable<any> {
+    return this.http.put(`${environment.apiUrl}/auth/password/${id}`, passwordData);
   }
 
   delete(id: number): Observable<void> {
