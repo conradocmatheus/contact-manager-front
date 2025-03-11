@@ -22,9 +22,14 @@
 
       <div class="field">
         <div class="control">
-          <button class="button is-primary is-fullwidth" type="submit" [disabled]="loginForm.invalid">Entrar</button>
+          <button class="button is-primary is-fullwidth" type="submit" [disabled]="loginForm.invalid || isLoading">
+            <span *ngIf="isLoading" class="loader"></span>
+            <span *ngIf="!isLoading">Entrar</span>
+          </button>
         </div>
       </div>
+
+      <p class="help is-danger has-text-centered" *ngIf="errorMessage">{{ errorMessage }}</p>
 
       <div class="field has-text-centered">
         <p class="is-size-7">
