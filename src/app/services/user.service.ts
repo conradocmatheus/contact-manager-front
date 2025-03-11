@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { User } from '../models/user';
 import { environment } from '../../environments/environment.development';
@@ -26,11 +26,9 @@ export class UserService {
     return this.http.put(`${this.apiUrl}/${id}`, userData);
   }
 
-  updatePassword(id: number, passwordData: {
-    currentPassword: string,
-    newPassword: string
-  }): Observable<any> {
-    return this.http.put(`${environment.apiUrl}/auth/password/${id}`, passwordData);
+  updatePassword(id: number, passwordData: { currentPassword: string, newPassword: string }): Observable<any> {
+    const headers = { Authorization: `Bearer ${localStorage.getItem('token')}` };
+    return this.http.put(`${environment.apiUrl}/auth/password/${id}`, passwordData, { headers });
   }
 
   delete(id: number): Observable<void> {
