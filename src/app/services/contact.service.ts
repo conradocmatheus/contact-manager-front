@@ -24,8 +24,10 @@ export class ContactService {
     return this.http.get<Contact[]>(this.apiUrl);
   }
 
-  getAllByUser(userId: string, page: number = 1, limit: number = 10): Observable<PaginatedResponse> {
-    return this.http.get<PaginatedResponse>(`${this.apiUrl}/by-user/${userId}?page=${page}&limit=${limit}`);
+  getAllByUser(userId: string, page: number = 1, limit: number = 10, search: string = ''): Observable<PaginatedResponse> {
+    return this.http.get<PaginatedResponse>(
+      `${this.apiUrl}/by-user/${userId}?page=${page}&limit=${limit}&search=${search}`
+    );
   }
 
   getById(id: number): Observable<Contact> {

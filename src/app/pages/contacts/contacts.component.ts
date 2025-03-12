@@ -1,12 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import {ContactService, PaginatedResponse} from '../../services/contact.service';
-import {Contact} from '../../models/contact';
-import {FormsModule} from '@angular/forms';
+import { ContactService, PaginatedResponse } from '../../services/contact.service';
+import { Contact } from '../../models/contact';
+import { FormsModule } from '@angular/forms';
 import {NgForOf, NgIf} from '@angular/common';
-import {FilterPipe} from '../../pipes/filter.pipe';
-import {PhoneFormatPipe} from '../../pipes/phone-format.pipe';
-import {Title} from '@angular/platform-browser';
+import { FilterPipe } from '../../pipes/filter.pipe';
+import { PhoneFormatPipe } from '../../pipes/phone-format.pipe';
+import { Title } from '@angular/platform-browser';
 import Swal from 'sweetalert2';
+import { Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 @Component({
   selector: 'app-contacts',
@@ -23,12 +25,14 @@ import Swal from 'sweetalert2';
 export class ContactsComponent implements OnInit {
   contacts: Contact[] = [];
   searchTerm: string = "";
+  searchTermSubject = new Subject<string>();
 
   currentPage: number = 1;
   itemsPerPage: number = 10;
   totalItems: number = 0;
   totalPages: number = 0;
   userId: string = '';
+  loading: boolean = false;
 
   constructor(
     private contactService: ContactService,
@@ -38,7 +42,20 @@ export class ContactsComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.searchTermSubject.pipe(
+      debounceTime(500),
+      distinctUntilChanged()
+    ).subscribe(term => {
+      this.searchTerm = term;
+      this.currentPage = 1;
+      this.loadContacts();
+    });
+
     this.loadContacts();
+  }
+
+  onSearchChange(term: string) {
+    this.searchTermSubject.next(term);
   }
 
   loadContacts() {
@@ -51,12 +68,20 @@ export class ContactsComponent implements OnInit {
 
     const user = JSON.parse(userData);
     this.userId = user.id;
+    this.loading = true;
 
-    this.contactService.getAllByUser(this.userId, this.currentPage, this.itemsPerPage)
-      .subscribe((data: PaginatedResponse) => {
-        this.contacts = data.contacts;
-        this.totalItems = data.pagination.total;
-        this.totalPages = data.pagination.totalPages;
+    this.contactService.getAllByUser(this.userId, this.currentPage, this.itemsPerPage, this.searchTerm)
+      .subscribe({
+        next: (data: PaginatedResponse) => {
+          this.contacts = data.contacts;
+          this.totalItems = data.pagination.total;
+          this.totalPages = data.pagination.totalPages;
+          this.loading = false;
+        },
+        error: (error) => {
+          console.error("Erro ao carregar contatos:", error);
+          this.loading = false;
+        }
       });
   }
 

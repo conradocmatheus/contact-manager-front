@@ -7,7 +7,8 @@
         class="input"
         type="text"
         placeholder="Pesquisar por nome ou email..."
-        [(ngModel)]="searchTerm"
+        [ngModel]="searchTerm"
+        (ngModelChange)="onSearchChange($event)"
         aria-label="Pesquisar contato">
       <span class="icon is-small is-left">
         <i class="fas fa-search" aria-hidden="true"></i>
@@ -33,7 +34,14 @@
     </div>
   </div>
 
-  <div class="table-container is-fullwidth">
+  <div class="has-text-centered my-4" *ngIf="loading">
+    <span class="icon is-large">
+      <i class="fas fa-spinner fa-pulse fa-2x"></i>
+    </span>
+    <p>Carregando contatos...</p>
+  </div>
+
+  <div class="table-container is-fullwidth" *ngIf="!loading">
     <table class="table is-striped is-hoverable is-fullwidth">
       <thead>
       <tr>
@@ -48,8 +56,8 @@
         <td>{{ contact.name }}</td>
         <td>{{ contact.email }}</td>
         <td>{{ contact.phone | phoneFormat }}</td>
-        <td class="actions">
-          <button class="button is-small is-info" (click)="editContact(contact)" aria-label="Editar contato">
+        <td class="actions has-text-centered">
+          <button class="button is-small is-info mr-2" (click)="editContact(contact)" aria-label="Editar contato">
             <i class="fas fa-edit" aria-hidden="true"></i>
           </button>
           <button class="button is-small is-danger" (click)="deleteContact(contact)" aria-label="Deletar contato">
@@ -66,7 +74,7 @@
     </table>
   </div>
 
-  <nav class="pagination is-centered" role="navigation" aria-label="pagination" *ngIf="totalPages > 0">
+  <nav class="pagination is-centered" role="navigation" aria-label="pagination" *ngIf="totalPages > 0 && !loading">
     <button class="pagination-previous" [disabled]="currentPage === 1" (click)="previousPage()">Anterior</button>
     <button class="pagination-next" [disabled]="currentPage === totalPages" (click)="nextPage()">Próxima</button>
     <ul class="pagination-list">
@@ -94,7 +102,7 @@
     </ul>
   </nav>
 
-  <div class="has-text-centered mt-3" *ngIf="totalItems > 0">
-    <p>Mostrando {{ (currentPage - 1) * itemsPerPage + 1 }} - {{ currentPage === totalPages ? totalItems : currentPage * itemsPerPage }} de {{ totalItems }} contatos</p>
+  <div class="has-text-centered mt-3" *ngIf="totalItems > 0 && !loading">
+    <p>Mostrando {{ (currentPage - 1) * itemsPerPage + 1 }} - {{ currentPage === totalPages ? totalItems : currentPage * itemsPerPage > totalItems ? totalItems : currentPage * itemsPerPage }} de {{ totalItems }} contatos</p>
   </div>
 </div>
