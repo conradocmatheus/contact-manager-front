@@ -4,6 +4,16 @@ import { Observable } from 'rxjs';
 import { Contact } from '../models/contact';
 import { environment } from '../../environments/environment.development';
 
+export interface PaginatedResponse {
+  contacts: Contact[];
+  pagination: {
+    total: number;
+    page: number;
+    limit: number;
+    totalPages: number;
+  };
+}
+
 @Injectable({ providedIn: 'root' })
 export class ContactService {
   private apiUrl = `${environment.apiUrl}/contacts`;
@@ -14,8 +24,8 @@ export class ContactService {
     return this.http.get<Contact[]>(this.apiUrl);
   }
 
-  getAllByUser(userId: number): Observable<Contact[]> {
-    return this.http.get<Contact[]>(`${this.apiUrl}/by-user/${userId}`);
+  getAllByUser(userId: string, page: number = 1, limit: number = 10): Observable<PaginatedResponse> {
+    return this.http.get<PaginatedResponse>(`${this.apiUrl}/by-user/${userId}?page=${page}&limit=${limit}`);
   }
 
   getById(id: number): Observable<Contact> {

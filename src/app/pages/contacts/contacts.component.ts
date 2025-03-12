@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {ContactService} from '../../services/contact.service';
+import {ContactService, PaginatedResponse} from '../../services/contact.service';
 import {Contact} from '../../models/contact';
 import {FormsModule} from '@angular/forms';
 import {NgForOf} from '@angular/common';
@@ -23,6 +23,12 @@ export class ContactsComponent implements OnInit {
   contacts: Contact[] = [];
   searchTerm: string = "";
 
+  currentPage: number = 1;
+  itemsPerPage: number = 10;
+  totalItems: number = 0;
+  totalPages: number = 0;
+  userId: string = '';
+
   constructor(
     private contactService: ContactService,
     private titleService: Title
@@ -43,10 +49,14 @@ export class ContactsComponent implements OnInit {
     }
 
     const user = JSON.parse(userData);
+    this.userId = user.id;
 
-    this.contactService.getAllByUser(user.id).subscribe((data) => {
-      this.contacts = data;
-    });
+    this.contactService.getAllByUser(this.userId, this.currentPage, this.itemsPerPage)
+      .subscribe((data: PaginatedResponse) => {
+        this.contacts = data.contacts;
+        this.totalItems = data.pagination.total;
+        this.totalPages = data.pagination.totalPages;
+      });
   }
 
   editContact(contact: Contact): void {
