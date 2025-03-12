@@ -5,6 +5,7 @@ import {FormsModule} from '@angular/forms';
 import {NgForOf} from '@angular/common';
 import {FilterPipe} from '../../pipes/filter.pipe';
 import {PhoneFormatPipe} from '../../pipes/phone-format.pipe';
+import {Title} from '@angular/platform-browser';
 
 @Component({
   selector: 'app-contacts',
@@ -21,7 +22,12 @@ export class ContactsComponent implements OnInit {
   contacts: Contact[] = [];
   searchTerm: string = "";
 
-  constructor(private contactService: ContactService) {}
+  constructor(
+    private contactService: ContactService,
+    private titleService: Title
+  ) {
+    this.titleService.setTitle('Contatos');
+  }
 
   ngOnInit() {
     this.loadContacts();
