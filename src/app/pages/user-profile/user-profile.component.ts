@@ -144,13 +144,6 @@ export class ProfileComponent implements OnInit {
     });
   }
 
-
-  removeFavorites(): void {
-    if (confirm('Tem certeza que deseja remover todos os favoritos?')) {
-      this.toast.success('Favoritos removidos com sucesso!', 'Sucesso', 3000);
-    }
-  }
-
   logout(): void {
     this.authService.logout();
     this.router.navigate(['/login']);
