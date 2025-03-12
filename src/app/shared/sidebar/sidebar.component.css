@@ -20,8 +20,8 @@
   display: block;
 }
 
-.navbar-item {
-  display: none;
+.sidebar-item {
+  margin-bottom: 8px;
 }
 
 @media screen and (max-width: 768px) {
