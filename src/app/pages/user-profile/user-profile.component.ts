@@ -92,6 +92,7 @@ export class ProfileComponent implements OnInit {
               this.isPasswordChanging = false;
               this.toast.success('Perfil e senha atualizados com sucesso!', 'Sucesso', 3000);
               this.resetPasswordFields();
+              setTimeout(() => window.location.reload(), 1500)
             },
             error: (err) => {
               this.isLoading = false;
@@ -104,6 +105,7 @@ export class ProfileComponent implements OnInit {
         } else {
           this.isLoading = false;
           this.toast.success('Perfil atualizado com sucesso!', 'Sucesso', 3000);
+          setTimeout(() => window.location.reload(), 1500);
         }
       },
       error: (err) => {
