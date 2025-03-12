@@ -149,6 +149,39 @@ export class ProfileComponent implements OnInit {
     this.router.navigate(['/login']);
   }
 
+  deleteAccount(): void {
+    const userData = localStorage.getItem("user");
+    if (!userData) {
+      console.error("Usuário não está logado!");
+      return;
+    }
+
+    const user = JSON.parse(userData);
+    const userId = user.id;
+
+    Swal.fire({
+      title: "Tem certeza?",
+      text: "Esta ação não pode ser desfeita!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Sim, excluir!",
+      cancelButtonText: "Cancelar"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.userService.delete(userId).subscribe(() => {
+          localStorage.removeItem("token");
+          localStorage.removeItem("user");
+          Swal.fire("Deletado!", "Sua conta foi excluída.", "success");
+          this.router.navigate(['/signup']);
+        }, error => {
+          Swal.fire("Erro!", "Ocorreu um erro ao excluir a conta.", "error");
+        });
+      }
+    });
+  }
+
   checkPasswords(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
       const newPassword = control.get('newPassword')?.value;
