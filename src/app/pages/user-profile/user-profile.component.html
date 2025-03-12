@@ -58,9 +58,15 @@
     <hr>
 
     <div class="buttons is-centered" style="margin-top: 20px;">
-      <button class="button is-danger" (click)="removeContacts()">Remover Todos os Contatos</button>
-      <button class="button is-danger" (click)="deleteAccount()">Apagar Conta</button>
-      <button class="button is-dark" (click)="logout()">Logout</button>
+      <button class="button is-warning" (click)="removeContacts()">
+        <i class="fas fa-trash-alt mr-2"></i> Remover Todos os Contatos
+      </button>
+      <button class="button is-danger" (click)="deleteAccount()">
+        <i class="fas fa-user-times mr-2"></i> Apagar Conta
+      </button>
+      <button class="button is-dark" (click)="logout()">
+        <i class="fas fa-sign-out-alt mr-2"></i> Logout
+      </button>
     </div>
   </div>
 </div>
