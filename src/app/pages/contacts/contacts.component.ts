@@ -6,6 +6,7 @@ import {NgForOf} from '@angular/common';
 import {FilterPipe} from '../../pipes/filter.pipe';
 import {PhoneFormatPipe} from '../../pipes/phone-format.pipe';
 import {Title} from '@angular/platform-browser';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-contacts',
@@ -53,6 +54,22 @@ export class ContactsComponent implements OnInit {
   }
 
   deleteContact(contact: Contact): void {
-    this.contactService.delete(contact.id).subscribe();
+    Swal.fire({
+      title: 'Tem certeza?',
+      text: 'Você não poderá reverter isso!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Sim, deletar!',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.contactService.delete(contact.id).subscribe(() => {
+          Swal.fire('Deletado!', 'O contato foi removido.', 'success');
+          this.loadContacts();
+        });
+      }
+    });
   }
 }
