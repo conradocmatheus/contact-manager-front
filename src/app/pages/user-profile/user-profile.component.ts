@@ -10,10 +10,12 @@ import {
 } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { UserService } from '../../services/user.service';
+import { ContactService } from '../../services/contact.service';
 import { Router } from '@angular/router';
 import { NgIf } from '@angular/common';
 import { NgToastService } from 'ng-angular-popup';
 import { Title } from '@angular/platform-browser';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-profile',
@@ -35,6 +37,7 @@ export class ProfileComponent implements OnInit {
     private fb: FormBuilder,
     private authService: AuthService,
     private userService: UserService,
+    private contactService: ContactService,
     private router: Router,
     private toast: NgToastService,
     private titleService: Title
@@ -94,7 +97,7 @@ export class ProfileComponent implements OnInit {
               this.isLoading = false;
               this.isPasswordChanging = false;
               this.toast.danger('Erro ao atualizar a senha. Verifique sua senha atual.', 'Erro', 3000);
-              console.error('Erro ao atualizar senha:', err);
+              console.error(err);
               this.resetPasswordFields();
             }
           });
@@ -106,7 +109,7 @@ export class ProfileComponent implements OnInit {
       error: (err) => {
         this.isLoading = false;
         this.toast.danger('Erro ao atualizar o perfil. Tente novamente.', 'Erro', 3000);
-        console.error('Erro ao atualizar perfil:', err);
+        console.error(err);
       }
     });
   }
@@ -120,10 +123,27 @@ export class ProfileComponent implements OnInit {
   }
 
   removeContacts(): void {
-    if (confirm('Tem certeza que deseja remover todos os contatos?')) {
-      this.toast.success('Contatos removidos com sucesso!', 'Sucesso', 3000);
-    }
+    Swal.fire({
+      title: 'Tem certeza?',
+      text: 'Você não poderá reverter esta ação!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Sim, remover',
+      cancelButtonText: 'Cancelar',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.contactService.deleteAllByUser(this.user.id).subscribe({
+          next: () => {
+            this.toast.success('Contatos removidos com sucesso!', 'Sucesso', 3000);
+          },
+          error: () => {
+            this.toast.danger('Erro ao remover contatos.', 'Erro', 3000);
+          }
+        });
+      }
+    });
   }
+
 
   removeFavorites(): void {
     if (confirm('Tem certeza que deseja remover todos os favoritos?')) {
