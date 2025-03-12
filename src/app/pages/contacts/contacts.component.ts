@@ -43,7 +43,7 @@ export class ContactsComponent implements OnInit {
 
   ngOnInit() {
     this.searchTermSubject.pipe(
-      debounceTime(500),
+      debounceTime(1000),
       distinctUntilChanged()
     ).subscribe(term => {
       this.searchTerm = term;
