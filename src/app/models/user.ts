@@ -1,5 +1,4 @@
 import {Contact} from './contact';
-import {FavoriteContact} from './favoriteContact';
 
 export interface User {
   id: number;
@@ -9,5 +8,4 @@ export interface User {
   createdAt: Date;
   updatedAt: Date;
   contacts: Contact[];
-  favorites: FavoriteContact[];
 }
