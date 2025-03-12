@@ -108,33 +108,18 @@ export class ContactsComponent implements OnInit {
     Swal.fire({
       title: 'Criar Novo Contato',
       html: `
-    <input id="swal-name" class="swal2-input" placeholder="Nome" required>
-    <input id="swal-email" class="swal2-input" placeholder="Email">
-    <input id="swal-phone" class="swal2-input" placeholder="Telefone" required>
-  `,
+      <input id="swal-name" class="swal2-input" placeholder="Nome" required>
+      <input id="swal-email" class="swal2-input" placeholder="Email">
+      <input id="swal-phone" class="swal2-input" placeholder="Telefone" required>
+    `,
       focusConfirm: false,
       showCancelButton: true,
       confirmButtonText: 'Criar Contato',
       cancelButtonText: 'Cancelar',
-      preConfirm: () => {
-        const name = (document.getElementById('swal-name') as HTMLInputElement).value;
-        const email = (document.getElementById('swal-email') as HTMLInputElement).value;
-        const phone = (document.getElementById('swal-phone') as HTMLInputElement).value;
-
-        const formattedPhone = this.formatPhone(phone);
-        if (!name || !formattedPhone) {
-          Swal.showValidationMessage('Nome e telefone são obrigatórios!');
-          return null;
-        }
-
-        return { name, email, phone: formattedPhone };
-      }
-
+      preConfirm: this.handlePreConfirm.bind(this)
     }).then((result) => {
       if (result.isConfirmed && result.value) {
-        const newContact = result.value;
-
-        this.contactService.create(newContact).subscribe({
+        this.contactService.create(result.value).subscribe({
           next: () => {
             Swal.fire('Criado!', 'O contato foi criado com sucesso.', 'success');
             this.loadContacts();
@@ -148,32 +133,19 @@ export class ContactsComponent implements OnInit {
     });
   }
 
-
   editContact(contact: Contact): void {
     Swal.fire({
       title: 'Editar Contato',
       html: `
-    <input id="swal-name" class="swal2-input" placeholder="Nome" value="${contact.name}">
-    <input id="swal-email" class="swal2-input" placeholder="Email" value="${contact.email}">
-    <input id="swal-phone" class="swal2-input" placeholder="Telefone" value="${contact.phone}">
-  `,
+      <input id="swal-name" class="swal2-input" placeholder="Nome" value="${contact.name}">
+      <input id="swal-email" class="swal2-input" placeholder="Email" value="${contact.email}">
+      <input id="swal-phone" class="swal2-input" placeholder="Telefone" value="${contact.phone}">
+    `,
       focusConfirm: false,
       showCancelButton: true,
       confirmButtonText: 'Salvar',
       cancelButtonText: 'Cancelar',
-      preConfirm: () => {
-        const name = (document.getElementById('swal-name') as HTMLInputElement).value;
-        const email = (document.getElementById('swal-email') as HTMLInputElement).value;
-        const phone = (document.getElementById('swal-phone') as HTMLInputElement).value;
-
-        const formattedPhone = this.formatPhone(phone);
-        if (!name || !formattedPhone) {
-          Swal.showValidationMessage('Nome e telefone são obrigatórios!');
-          return null;
-        }
-
-        return { name, email, phone: formattedPhone };
-      }
+      preConfirm: this.handlePreConfirm.bind(this)
     }).then((result) => {
       if (result.isConfirmed && result.value) {
         const updatedContact = { ...contact, ...result.value };
@@ -185,7 +157,6 @@ export class ContactsComponent implements OnInit {
       }
     });
   }
-
 
   deleteContact(contact: Contact): void {
     Swal.fire({
@@ -206,6 +177,21 @@ export class ContactsComponent implements OnInit {
       }
     });
   }
+
+  private handlePreConfirm(): { name: string; email: string; phone: string } | null {
+    const name = (document.getElementById('swal-name') as HTMLInputElement).value;
+    const email = (document.getElementById('swal-email') as HTMLInputElement).value;
+    const phone = (document.getElementById('swal-phone') as HTMLInputElement).value;
+
+    const formattedPhone = this.formatPhone(phone);
+    if (!name || !formattedPhone) {
+      Swal.showValidationMessage('Nome e telefone são obrigatórios!');
+      return null;
+    }
+
+    return { name, email, phone: formattedPhone };
+  }
+
 
   private formatPhone(phone: string): string | null {
     const cleanedPhone = phone.replace(/\D/g, '');
