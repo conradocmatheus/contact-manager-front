@@ -234,4 +234,24 @@ export class ContactsComponent implements OnInit {
       }
     });
   }
+
+  exportContacts(): void {
+    const contactsToExport = this.contacts.map(contact => ({
+      Nome: contact.name,
+      Email: contact.email || 'Não informado',
+      Telefone: contact.phone
+    }));
+
+    const header = Object.keys(contactsToExport[0]);
+    const csvContent = [
+      header.join(','),
+      ...contactsToExport.map(contact => Object.values(contact).join(','))
+    ].join('\n');
+
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = 'contatos.csv';
+    link.click();
+  }
 }
