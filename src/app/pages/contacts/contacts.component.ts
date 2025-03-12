@@ -50,7 +50,39 @@ export class ContactsComponent implements OnInit {
   }
 
   editContact(contact: Contact): void {
-    console.log('Editar contato', contact);
+    Swal.fire({
+      title: 'Editar Contato',
+      html: `
+      <input id="swal-name" class="swal2-input" placeholder="Nome" value="${contact.name}">
+      <input id="swal-email" class="swal2-input" placeholder="Email" value="${contact.email}">
+      <input id="swal-phone" class="swal2-input" placeholder="Phone Number" value="${contact.phone}">
+    `,
+      focusConfirm: false,
+      showCancelButton: true,
+      confirmButtonText: 'Salvar',
+      cancelButtonText: 'Cancelar',
+      preConfirm: () => {
+        const name = (document.getElementById('swal-name') as HTMLInputElement).value;
+        const email = (document.getElementById('swal-email') as HTMLInputElement).value;
+        const phone = (document.getElementById('swal-phone') as HTMLInputElement).value;
+
+        if (!name || !email) {
+          Swal.showValidationMessage('Todos os campos são obrigatórios!');
+          return null;
+        }
+
+        return { name, email, phone };
+      }
+    }).then((result) => {
+      if (result.isConfirmed && result.value) {
+        const updatedContact = { ...contact, ...result.value };
+
+        this.contactService.update(updatedContact.id, updatedContact).subscribe(() => {
+          Swal.fire('Atualizado!', 'O contato foi editado com sucesso.', 'success');
+          this.loadContacts();
+        });
+      }
+    });
   }
 
   deleteContact(contact: Contact): void {
