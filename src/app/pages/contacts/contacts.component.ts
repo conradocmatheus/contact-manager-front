@@ -3,7 +3,6 @@ import { ContactService, PaginatedResponse } from '../../services/contact.servic
 import { Contact } from '../../models/contact';
 import { FormsModule } from '@angular/forms';
 import {NgForOf, NgIf} from '@angular/common';
-import { FilterPipe } from '../../pipes/filter.pipe';
 import { PhoneFormatPipe } from '../../pipes/phone-format.pipe';
 import { Title } from '@angular/platform-browser';
 import Swal from 'sweetalert2';
@@ -15,7 +14,6 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
   imports: [
     FormsModule,
     NgForOf,
-    FilterPipe,
     PhoneFormatPipe,
     NgIf
   ],
