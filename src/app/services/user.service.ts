@@ -27,8 +27,7 @@ export class UserService {
   }
 
   updatePassword(id: number, passwordData: { currentPassword: string, newPassword: string }): Observable<any> {
-    const headers = { Authorization: `Bearer ${localStorage.getItem('token')}` };
-    return this.http.put(`${environment.apiUrl}/auth/password/${id}`, passwordData, { headers });
+    return this.http.put(`${environment.apiUrl}/auth/password/${id}`, passwordData);
   }
 
   delete(id: number): Observable<void> {
