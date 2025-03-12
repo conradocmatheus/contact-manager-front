@@ -104,6 +104,68 @@ export class ContactsComponent implements OnInit {
     }
   }
 
+  createContact(): void {
+    Swal.fire({
+      title: 'Criar Novo Contato',
+      html: `
+    <input id="swal-name" class="swal2-input" placeholder="Nome" required>
+    <input id="swal-email" class="swal2-input" placeholder="Email">
+    <input id="swal-phone" class="swal2-input" placeholder="Telefone" required>
+  `,
+      focusConfirm: false,
+      showCancelButton: true,
+      confirmButtonText: 'Criar Contato',
+      cancelButtonText: 'Cancelar',
+      preConfirm: () => {
+        const name = (document.getElementById('swal-name') as HTMLInputElement).value;
+        const email = (document.getElementById('swal-email') as HTMLInputElement).value;
+        const phone = (document.getElementById('swal-phone') as HTMLInputElement).value;
+
+        const userData = localStorage.getItem("user");
+        if (!userData) {
+          console.error("Usuário não está logado!");
+          return;
+        }
+        const user = JSON.parse(userData);
+        const userId = user.id;
+
+        const cleanedPhone = phone.replace(/\D/g, '');
+        const phoneRegex = /^(?:\d{10}|\d{11})$/;
+        if (!cleanedPhone || !phoneRegex.test(cleanedPhone)) {
+          Swal.showValidationMessage('Por favor, insira um telefone válido com 10 ou 11 dígitos!');
+          return null;
+        }
+
+        const formattedPhone = cleanedPhone.length === 11
+          ? `${cleanedPhone.substring(0, 2)} ${cleanedPhone.substring(2, 7)}-${cleanedPhone.substring(7)}`
+          : `${cleanedPhone.substring(0, 2)} ${cleanedPhone.substring(2, 6)}-${cleanedPhone.substring(6)}`;
+
+        if (!name || !formattedPhone) {
+          Swal.showValidationMessage('Nome e telefone são obrigatórios!');
+          return null;
+        }
+
+        return { name, email, phone: formattedPhone, userId };
+      }
+    }).then((result) => {
+      if (result.isConfirmed && result.value) {
+        const newContact = result.value;
+
+        this.contactService.create(newContact).subscribe({
+          next: () => {
+            Swal.fire('Criado!', 'O contato foi criado com sucesso.', 'success');
+            this.loadContacts();
+          },
+          error: (err) => {
+            Swal.fire('Erro!', 'Ocorreu um erro ao criar o contato.', 'error');
+            console.error('Erro ao criar o contato:', err);
+          }
+        });
+      }
+    });
+  }
+
+
   editContact(contact: Contact): void {
     Swal.fire({
       title: 'Editar Contato',
