@@ -121,32 +121,15 @@ export class ContactsComponent implements OnInit {
         const email = (document.getElementById('swal-email') as HTMLInputElement).value;
         const phone = (document.getElementById('swal-phone') as HTMLInputElement).value;
 
-        const userData = localStorage.getItem("user");
-        if (!userData) {
-          console.error("Usuário não está logado!");
-          return;
-        }
-        const user = JSON.parse(userData);
-        const userId = user.id;
-
-        const cleanedPhone = phone.replace(/\D/g, '');
-        const phoneRegex = /^(?:\d{10}|\d{11})$/;
-        if (!cleanedPhone || !phoneRegex.test(cleanedPhone)) {
-          Swal.showValidationMessage('Por favor, insira um telefone válido com 10 ou 11 dígitos!');
-          return null;
-        }
-
-        const formattedPhone = cleanedPhone.length === 11
-          ? `${cleanedPhone.substring(0, 2)} ${cleanedPhone.substring(2, 7)}-${cleanedPhone.substring(7)}`
-          : `${cleanedPhone.substring(0, 2)} ${cleanedPhone.substring(2, 6)}-${cleanedPhone.substring(6)}`;
-
+        const formattedPhone = this.formatPhone(phone);
         if (!name || !formattedPhone) {
           Swal.showValidationMessage('Nome e telefone são obrigatórios!');
           return null;
         }
 
-        return { name, email, phone: formattedPhone, userId };
+        return { name, email, phone: formattedPhone };
       }
+
     }).then((result) => {
       if (result.isConfirmed && result.value) {
         const newContact = result.value;
@@ -183,18 +166,7 @@ export class ContactsComponent implements OnInit {
         const email = (document.getElementById('swal-email') as HTMLInputElement).value;
         const phone = (document.getElementById('swal-phone') as HTMLInputElement).value;
 
-        const cleanedPhone = phone.replace(/\D/g, '');
-
-        const phoneRegex = /^(?:\d{10}|\d{11})$/;
-        if (!cleanedPhone || !phoneRegex.test(cleanedPhone)) {
-          Swal.showValidationMessage('Por favor, insira um telefone válido com 10 ou 11 dígitos!');
-          return null;
-        }
-
-        const formattedPhone = cleanedPhone.length === 11
-          ? `${cleanedPhone.substring(0, 2)} ${cleanedPhone.substring(2, 7)}-${cleanedPhone.substring(7)}`
-          : `${cleanedPhone.substring(0, 2)} ${cleanedPhone.substring(2, 6)}-${cleanedPhone.substring(6)}`;
-
+        const formattedPhone = this.formatPhone(phone);
         if (!name || !formattedPhone) {
           Swal.showValidationMessage('Nome e telefone são obrigatórios!');
           return null;
@@ -234,6 +206,21 @@ export class ContactsComponent implements OnInit {
       }
     });
   }
+
+  private formatPhone(phone: string): string | null {
+    const cleanedPhone = phone.replace(/\D/g, '');
+    const phoneRegex = /^(?:\d{10}|\d{11})$/;
+
+    if (!cleanedPhone || !phoneRegex.test(cleanedPhone)) {
+      Swal.showValidationMessage('Por favor, insira um telefone válido com 10 ou 11 dígitos!');
+      return null;
+    }
+
+    return cleanedPhone.length === 11
+      ? `${cleanedPhone.substring(0, 2)} ${cleanedPhone.substring(2, 7)}-${cleanedPhone.substring(7)}`
+      : `${cleanedPhone.substring(0, 2)} ${cleanedPhone.substring(2, 6)}-${cleanedPhone.substring(6)}`;
+  }
+
 
   exportContacts(): void {
     this.loading = true;
