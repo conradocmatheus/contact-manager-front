@@ -20,18 +20,10 @@ export class ContactService {
 
   constructor(private http: HttpClient) {}
 
-  getAll(): Observable<Contact[]> {
-    return this.http.get<Contact[]>(this.apiUrl);
-  }
-
   getAllByUser(userId: string, page: number = 1, limit: number = 10, search: string = ''): Observable<PaginatedResponse> {
     return this.http.get<PaginatedResponse>(
       `${this.apiUrl}/by-user/${userId}?page=${page}&limit=${limit}&search=${search}`
     );
-  }
-
-  getById(id: number): Observable<Contact> {
-    return this.http.get<Contact>(`${this.apiUrl}/${id}`);
   }
 
   create(contact: Contact): Observable<Contact> {
