@@ -8,6 +8,7 @@ import { Title } from '@angular/platform-browser';
 import Swal from 'sweetalert2';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { PhoneValidatorService } from '../../services/phone-validator.service';
 
 @Component({
   selector: 'app-contacts',
@@ -34,7 +35,8 @@ export class ContactsComponent implements OnInit {
 
   constructor(
     private contactService: ContactService,
-    private titleService: Title
+    private titleService: Title,
+    private phoneValidatorService: PhoneValidatorService
   ) {
     this.titleService.setTitle('Contatos');
   }
@@ -119,14 +121,29 @@ export class ContactsComponent implements OnInit {
       preConfirm: this.handlePreConfirm.bind(this)
     }).then((result) => {
       if (result.isConfirmed && result.value) {
-        this.contactService.create(result.value).subscribe({
-          next: () => {
-            Swal.fire('Criado!', 'O contato foi criado com sucesso.', 'success');
-            this.loadContacts();
+        let phone = result.value.phone;
+        phone = "+55" + phone;
+
+        this.phoneValidatorService.validatePhoneNumber(phone).subscribe({
+          next: (validationData) => {
+            if (!validationData.valid) {
+              Swal.fire('Erro!', 'O número de telefone não é válido.', 'error');
+            } else {
+              this.contactService.create(result.value).subscribe({
+                next: () => {
+                  Swal.fire('Criado!', 'O contato foi criado com sucesso.', 'success');
+                  this.loadContacts();
+                },
+                error: (err) => {
+                  Swal.fire('Erro!', 'Ocorreu um erro ao criar o contato.', 'error');
+                  console.error('Erro ao criar o contato:', err);
+                }
+              });
+            }
           },
-          error: (err) => {
-            Swal.fire('Erro!', 'Ocorreu um erro ao criar o contato.', 'error');
-            console.error('Erro ao criar o contato:', err);
+          error: (error) => {
+            Swal.fire('Erro!', 'Ocorreu um erro ao validar o número de telefone.', 'error');
+            console.error('Erro na validação:', error);
           }
         });
       }
@@ -148,11 +165,32 @@ export class ContactsComponent implements OnInit {
       preConfirm: this.handlePreConfirm.bind(this)
     }).then((result) => {
       if (result.isConfirmed && result.value) {
-        const updatedContact = { ...contact, ...result.value };
+        let phone = result.value.phone;
+        phone = "+55" + phone;
 
-        this.contactService.update(updatedContact.id, updatedContact).subscribe(() => {
-          Swal.fire('Atualizado!', 'O contato foi editado com sucesso.', 'success');
-          this.loadContacts();
+        this.phoneValidatorService.validatePhoneNumber(phone).subscribe({
+          next: (validationData) => {
+            if (!validationData.valid) {
+              Swal.fire('Erro!', 'O número de telefone não é válido.', 'error');
+            } else {
+              const updatedContact = { ...contact, ...result.value };
+
+              this.contactService.update(updatedContact.id, updatedContact).subscribe({
+                next: () => {
+                  Swal.fire('Atualizado!', 'O contato foi editado com sucesso.', 'success');
+                  this.loadContacts();
+                },
+                error: (err) => {
+                  Swal.fire('Erro!', 'Ocorreu um erro ao editar o contato.', 'error');
+                  console.error('Erro ao editar o contato:', err);
+                }
+              });
+            }
+          },
+          error: (error) => {
+            Swal.fire('Erro!', 'Ocorreu um erro ao validar o número de telefone.', 'error');
+            console.error('Erro na validação:', error);
+          }
         });
       }
     });
