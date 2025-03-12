@@ -1,0 +1,74 @@
+<div class="container is-fluid">
+  <div class="box">
+    <h1 class="title is-4 has-text-centered">Perfil</h1>
+    <div class="has-text-centered" style="margin-bottom: 20px;">
+      <span class="icon is-large">
+        <i class="fas fa-user-circle fa-3x"></i>
+      </span>
+    </div>
+
+    <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+      <div class="field">
+        <label class="label">Nome</label>
+        <div class="control">
+          <input class="input" type="text" formControlName="name" placeholder="Digite seu nome">
+        </div>
+        <p class="help is-danger" *ngIf="profileForm.get('name')?.errors?.['required']">Nome é obrigatório</p>
+      </div>
+
+      <div class="field">
+        <label class="label">Email</label>
+        <div class="control">
+          <input class="input" type="email" formControlName="email" placeholder="Digite seu email">
+        </div>
+        <p class="help is-danger" *ngIf="profileForm.get('email')?.errors?.['required']">Email é obrigatório</p>
+        <p class="help is-danger" *ngIf="profileForm.get('email')?.errors?.['email']">Email inválido</p>
+      </div>
+
+      <div class="field">
+        <label class="label">Senha Atual</label>
+        <div class="control">
+          <input class="input" type="password" formControlName="currentPassword" placeholder="Digite sua senha atual">
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="label">Nova Senha</label>
+        <div class="control">
+          <input class="input" type="password" formControlName="newPassword" placeholder="Digite sua nova senha">
+        </div>
+        <p class="help is-danger" *ngIf="profileForm.get('newPassword')?.errors?.['minlength']">A senha deve ter pelo menos 6 caracteres</p>
+      </div>
+
+      <div class="field">
+        <label class="label">Confirmar Nova Senha</label>
+        <div class="control">
+          <input class="input" type="password" formControlName="confirmPassword" placeholder="Confirme sua nova senha">
+        </div>
+        <p class="help is-danger" *ngIf="profileForm.errors?.['notSame']">As senhas não coincidem</p>
+      </div>
+
+      <div class="field">
+        <div class="control">
+          <button class="button is-primary is-fullwidth" type="submit" [disabled]="profileForm.invalid">
+            <i class="fas fa-edit mr-2"></i> Alterar
+          </button>
+        </div>
+      </div>
+    </form>
+
+    <hr>
+
+    <div class="buttons is-centered" style="margin-top: 20px;">
+      <button class="button is-warning" (click)="removeContacts()">
+        <i class="fas fa-trash-alt mr-2"></i> Remover Todos os Contatos
+      </button>
+      <button class="button is-danger" (click)="deleteAccount()">
+        <i class="fas fa-user-times mr-2"></i> Apagar Conta
+      </button>
+      <button class="button is-dark" (click)="logout()">
+        <i class="fas fa-sign-out-alt mr-2"></i> Logout
+      </button>
+    </div>
+  </div>
+</div>

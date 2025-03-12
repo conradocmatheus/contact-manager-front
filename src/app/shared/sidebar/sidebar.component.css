@@ -1,0 +1,38 @@
+.menu {
+  position: sticky;
+  display: inline-block;
+  vertical-align: top;
+  max-height: 100vh;
+  overflow-y: auto;
+  width: 250px;
+  top: 0;
+  bottom: 0;
+  padding: 30px;
+}
+
+.menu-label {
+  font-size: 1rem;
+  font-weight: bold;
+  color: black;
+}
+
+.is-active {
+  display: block;
+}
+
+.sidebar-item {
+  margin-bottom: 8px;
+}
+
+@media screen and (max-width: 768px) {
+  .menu {
+    position: relative;
+    width: 100%;
+    height: auto;
+    margin-bottom: 20px;
+  }
+
+  .navbar-item {
+    display: block;
+  }
+}
