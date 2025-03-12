@@ -170,10 +170,10 @@ export class ContactsComponent implements OnInit {
     Swal.fire({
       title: 'Editar Contato',
       html: `
-      <input id="swal-name" class="swal2-input" placeholder="Nome" value="${contact.name}">
-      <input id="swal-email" class="swal2-input" placeholder="Email" value="${contact.email}">
-      <input id="swal-phone" class="swal2-input" placeholder="Phone Number" value="${contact.phone}">
-    `,
+    <input id="swal-name" class="swal2-input" placeholder="Nome" value="${contact.name}">
+    <input id="swal-email" class="swal2-input" placeholder="Email" value="${contact.email}">
+    <input id="swal-phone" class="swal2-input" placeholder="Telefone" value="${contact.phone}">
+  `,
       focusConfirm: false,
       showCancelButton: true,
       confirmButtonText: 'Salvar',
@@ -183,12 +183,24 @@ export class ContactsComponent implements OnInit {
         const email = (document.getElementById('swal-email') as HTMLInputElement).value;
         const phone = (document.getElementById('swal-phone') as HTMLInputElement).value;
 
-        if (!name || !email) {
-          Swal.showValidationMessage('Todos os campos são obrigatórios!');
+        const cleanedPhone = phone.replace(/\D/g, '');
+
+        const phoneRegex = /^(?:\d{10}|\d{11})$/;
+        if (!cleanedPhone || !phoneRegex.test(cleanedPhone)) {
+          Swal.showValidationMessage('Por favor, insira um telefone válido com 10 ou 11 dígitos!');
           return null;
         }
 
-        return { name, email, phone };
+        const formattedPhone = cleanedPhone.length === 11
+          ? `${cleanedPhone.substring(0, 2)} ${cleanedPhone.substring(2, 7)}-${cleanedPhone.substring(7)}`
+          : `${cleanedPhone.substring(0, 2)} ${cleanedPhone.substring(2, 6)}-${cleanedPhone.substring(6)}`;
+
+        if (!name || !formattedPhone) {
+          Swal.showValidationMessage('Nome e telefone são obrigatórios!');
+          return null;
+        }
+
+        return { name, email, phone: formattedPhone };
       }
     }).then((result) => {
       if (result.isConfirmed && result.value) {
@@ -201,6 +213,7 @@ export class ContactsComponent implements OnInit {
       }
     });
   }
+
 
   deleteContact(contact: Contact): void {
     Swal.fire({
