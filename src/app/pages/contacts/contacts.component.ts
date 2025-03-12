@@ -34,7 +34,16 @@ export class ContactsComponent implements OnInit {
   }
 
   loadContacts() {
-    this.contactService.getAll().subscribe((data) => {
+    const userData = localStorage.getItem("user");
+
+    if (!userData) {
+      console.error("Usuário não está logado!");
+      return;
+    }
+
+    const user = JSON.parse(userData);
+
+    this.contactService.getAllByUser(user.id).subscribe((data) => {
       this.contacts = data;
     });
   }

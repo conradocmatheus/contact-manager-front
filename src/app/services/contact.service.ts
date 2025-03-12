@@ -14,6 +14,10 @@ export class ContactService {
     return this.http.get<Contact[]>(this.apiUrl);
   }
 
+  getAllByUser(userId: number): Observable<Contact[]> {
+    return this.http.get<Contact[]>(`${this.apiUrl}/by-user/${userId}`);
+  }
+
   getById(id: number): Observable<Contact> {
     return this.http.get<Contact>(`${this.apiUrl}/${id}`);
   }
