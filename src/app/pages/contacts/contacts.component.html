@@ -44,7 +44,7 @@
       </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let contact of contacts | filter:searchTerm; let i = index" [class.is-even]="i % 2 === 0">
+      <tr *ngFor="let contact of contacts; let i = index" [class.is-even]="i % 2 === 0">
         <td>{{ contact.name }}</td>
         <td>{{ contact.email }}</td>
         <td>{{ contact.phone | phoneFormat }}</td>
@@ -57,7 +57,44 @@
           </button>
         </td>
       </tr>
+      <tr *ngIf="contacts.length === 0">
+        <td colspan="4" class="has-text-centered">
+          Nenhum contato encontrado
+        </td>
+      </tr>
       </tbody>
     </table>
+  </div>
+
+  <nav class="pagination is-centered" role="navigation" aria-label="pagination" *ngIf="totalPages > 0">
+    <button class="pagination-previous" [disabled]="currentPage === 1" (click)="previousPage()">Anterior</button>
+    <button class="pagination-next" [disabled]="currentPage === totalPages" (click)="nextPage()">Próxima</button>
+    <ul class="pagination-list">
+      <li *ngIf="currentPage > 2">
+        <a class="pagination-link" (click)="goToPage(1)">1</a>
+      </li>
+      <li *ngIf="currentPage > 3">
+        <span class="pagination-ellipsis">&hellip;</span>
+      </li>
+      <li *ngIf="currentPage > 1">
+        <a class="pagination-link" (click)="goToPage(currentPage - 1)">{{ currentPage - 1 }}</a>
+      </li>
+      <li>
+        <a class="pagination-link is-current">{{ currentPage }}</a>
+      </li>
+      <li *ngIf="currentPage < totalPages">
+        <a class="pagination-link" (click)="goToPage(currentPage + 1)">{{ currentPage + 1 }}</a>
+      </li>
+      <li *ngIf="currentPage < totalPages - 2">
+        <span class="pagination-ellipsis">&hellip;</span>
+      </li>
+      <li *ngIf="currentPage < totalPages - 1">
+        <a class="pagination-link" (click)="goToPage(totalPages)">{{ totalPages }}</a>
+      </li>
+    </ul>
+  </nav>
+
+  <div class="has-text-centered mt-3" *ngIf="totalItems > 0">
+    <p>Mostrando {{ (currentPage - 1) * itemsPerPage + 1 }} - {{ currentPage === totalPages ? totalItems : currentPage * itemsPerPage }} de {{ totalItems }} contatos</p>
   </div>
 </div>

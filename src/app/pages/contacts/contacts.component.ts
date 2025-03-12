@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {ContactService, PaginatedResponse} from '../../services/contact.service';
 import {Contact} from '../../models/contact';
 import {FormsModule} from '@angular/forms';
-import {NgForOf} from '@angular/common';
+import {NgForOf, NgIf} from '@angular/common';
 import {FilterPipe} from '../../pipes/filter.pipe';
 import {PhoneFormatPipe} from '../../pipes/phone-format.pipe';
 import {Title} from '@angular/platform-browser';
@@ -14,7 +14,8 @@ import Swal from 'sweetalert2';
     FormsModule,
     NgForOf,
     FilterPipe,
-    PhoneFormatPipe
+    PhoneFormatPipe,
+    NgIf
   ],
   templateUrl: './contacts.component.html',
   styleUrl: './contacts.component.css'
@@ -57,6 +58,27 @@ export class ContactsComponent implements OnInit {
         this.totalItems = data.pagination.total;
         this.totalPages = data.pagination.totalPages;
       });
+  }
+
+  nextPage() {
+    if (this.currentPage < this.totalPages) {
+      this.currentPage++;
+      this.loadContacts();
+    }
+  }
+
+  previousPage() {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+      this.loadContacts();
+    }
+  }
+
+  goToPage(page: number) {
+    if (page >= 1 && page <= this.totalPages) {
+      this.currentPage = page;
+      this.loadContacts();
+    }
   }
 
   editContact(contact: Contact): void {
