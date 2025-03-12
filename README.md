@@ -1,59 +1,126 @@
-# ContactManagerFront
+# 📱 ContactManagerFront - Guia do Usuário
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.1.
+Este guia explica como configurar, instalar e utilizar a interface frontend do ContactManagerFront. O aplicativo permite gerenciar contatos com recursos de autenticação, cadastro, pesquisa e validação.
 
-## Development server
+## 🛠️ Configuração Inicial do Projeto
 
-To start a local development server, run:
+### Pré-requisitos
+
+Antes de começar, certifique-se de que você tem instalado:
+
+1. Node.js
+2. Angular CLI versão 19.2.1 (`npm install -g @angular/cli@19.2.1`)
+3. A API backend configurada e rodando
+
+### Configurando o Projeto
 
 ```bash
+# Instale as dependências
+npm install
+```
+
+### Configurando a Conexão com a API
+
+1. Crie o arquivo `src/environments/environment.development.ts`
+2. Atualize a URL da API conforme necessário:
+
+```typescript
+export const environment = {
+  production: false,
+  apiUrl: 'http://localhost:3000/api', // Ajuste para a URL da sua API
+};
+```
+
+### Iniciando o Servidor de Desenvolvimento
+
+```bash
+# No diretório do projeto
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Acesse `http://localhost:4200` no navegador para iniciar o aplicativo.
 
-## Code scaffolding
+## 👤 Criando uma Conta de Usuário
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+1. Na tela inicial, clique no botão **"Registrar"**
+2. Preencha o formulário com suas informações:
+   - Nome
+   - Email (será seu nome de usuário)
+   - Senha
+3. Clique em **"Cadastrar"**
+4. Se todas as informações estiverem corretas, você receberá uma confirmação e será redirecionado para a tela de login
 
-```bash
-ng generate component component-name
-```
+## 🔑 Fazendo Login
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+1. Na tela inicial, insira seu email e senha
+2. Clique em **"Entrar"**
+3. Após autenticação bem-sucedida, você será redirecionado para o painel principal (home)
 
-```bash
-ng generate --help
-```
+## 📞 Gerenciando Contatos
 
-## Building
+### Adicionando um Novo Contato
 
-To build the project run:
+1. No painel principal, clique no botão **"+ Novo Contato"**
+2. Preencha o formulário com as informações do contato:
+   - Nome
+   - Sobrenome
+   - Email
+   - Número de telefone (formato brasileiro: exemplo 45996323232 com 10 ou 11 dígitos)
+3. Clique em **"Salvar"**
+4. O sistema validará automaticamente o número de telefone usando a API NumVerify por trás dos panos, mas você pode verificar isso se olhar na parte do network no devtools
+5. Se a validação for bem-sucedida, o contato será adicionado à sua lista
 
-```bash
-ng build
-```
+### Editando um Contato
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+1. Na tela de detalhes do contato, clique no botão **"Editar"**
+2. Modifique as informações necessárias no formulário
+3. Clique em **"Atualizar"**
+4. Se você alterar o número de telefone, uma nova validação será realizada
 
-## Running unit tests
+### Excluindo um Contato
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+1. Na tela de detalhes do contato, clique no botão **"Excluir"**
+2. Confirme a exclusão na caixa de diálogo
+3. O contato será removido permanentemente da sua lista
 
-```bash
-ng test
-```
+## 🔍 Pesquisando Contatos
 
-## Running end-to-end tests
+1. No painel principal, use a barra de pesquisa no topo da lista
+2. Digite o nome, sobrenome ou email
+3. A lista será filtrada 1,5 segundos após a digitação
 
-For end-to-end (e2e) testing, run:
+## 📊 Funcionalidades Adicionais
 
-```bash
-ng e2e
-```
+### Exportando Contatos
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+1. No painel principal, clique no botão **"Exportar"**
+2. O arquivo .CSV será gerado e baixado automaticamente
 
-## Additional Resources
+## 👤 Gerenciando Perfil
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+1. Clique no seu nome de usuário no canto superior direito
+2. Selecione **"Meu Perfil"**
+3. Nesta tela você pode:
+   - Atualizar suas informações pessoais
+   - Alterar sua senha
+   - Remover todos os seus contatos
+   - Apagar sua conta
+   - Fazer logout
+
+## ❓ Solução de Problemas
+
+### Erro de Validação de Número
+
+Se um número de telefone não puder ser validado:
+1. Confirme se a API NumVerify está configurada corretamente no backend
+2. Verifique se tem tokens restantes na dashboard do NumVerify
+
+### Problemas de Conexão com o Backend
+
+Se o aplicativo não conseguir se conectar ao backend:
+1. Verifique se o servidor backend está rodando
+2. Confirme se a URL da API no arquivo `environment.development.ts` está correta
+
+---
+
+Se você encontrar problemas ou tiver dúvidas adicionais, entre em contato comigo.
