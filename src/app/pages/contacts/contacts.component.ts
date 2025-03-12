@@ -178,7 +178,7 @@ export class ContactsComponent implements OnInit {
     });
   }
 
-  private handlePreConfirm(): { name: string; email: string; phone: string } | null {
+  private handlePreConfirm(): { name: string; email: string; phone: string, userId: number } | null {
     const name = (document.getElementById('swal-name') as HTMLInputElement).value;
     const email = (document.getElementById('swal-email') as HTMLInputElement).value;
     const phone = (document.getElementById('swal-phone') as HTMLInputElement).value;
@@ -189,7 +189,15 @@ export class ContactsComponent implements OnInit {
       return null;
     }
 
-    return { name, email, phone: formattedPhone };
+    const userData = localStorage.getItem('user');
+    if (!userData) {
+      console.error("Usuário não está logado!");
+      return null;
+    }
+    const user = JSON.parse(userData);
+    const userId = user.id;
+
+    return { name, email, phone: formattedPhone, userId };
   }
 
 
