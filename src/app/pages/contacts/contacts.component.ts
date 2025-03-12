@@ -236,10 +236,36 @@ export class ContactsComponent implements OnInit {
   }
 
   exportContacts(): void {
-    const contactsToExport = this.contacts.map(contact => ({
+    this.loading = true;
+    const allContacts: Contact[] = [];
+
+    const loadAllContacts = (page: number) => {
+      this.contactService.getAllByUser(this.userId, page, this.itemsPerPage, this.searchTerm).subscribe({
+        next: (data: PaginatedResponse) => {
+          allContacts.push(...data.contacts);
+
+          if(page < data.pagination.totalPages) {
+            loadAllContacts(page + 1);
+          } else {
+            this.exportToCSV(allContacts);
+            this.loading = false;
+          }
+        },
+        error: (err) => {
+          console.error("Erro ao carregar contatos:", err);
+          this.loading = false;
+        }
+      });
+    };
+
+    loadAllContacts(1);
+  }
+
+  exportToCSV(contacts: Contact[]) {
+    const contactsToExport = contacts.map(contact => ({
       Nome: contact.name,
       Email: contact.email || 'Não informado',
-      Telefone: contact.phone
+      Telefone: contact.phone,
     }));
 
     const header = Object.keys(contactsToExport[0]);
