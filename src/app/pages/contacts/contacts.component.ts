@@ -53,6 +53,6 @@ export class ContactsComponent implements OnInit {
   }
 
   deleteContact(contact: Contact): void {
-    console.log('Apagar contato', contact);
+    this.contactService.delete(contact.id).subscribe();
   }
 }
