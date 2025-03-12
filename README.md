@@ -10,7 +10,7 @@ Antes de começar, certifique-se de que você tem instalado:
 
 1. Node.js
 2. Angular CLI versão 19.2.1 (`npm install -g @angular/cli@19.2.1`)
-3. A API backend configurada e rodando
+3. A [API backend](https://github.com/conradocmatheus/contact-manager-back) configurada e rodando
 
 ### Configurando o Projeto
 
