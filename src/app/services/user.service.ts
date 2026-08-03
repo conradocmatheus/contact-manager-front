@@ -14,15 +14,19 @@ export class UserService {
     return this.http.post<User>(this.apiUrl, user);
   }
 
-  updateProfile(id: number, userData: { name: string, email: string }): Observable<any> {
-    return this.http.put(`${this.apiUrl}/${id}`, userData);
+  getProfile(): Observable<User> {
+    return this.http.get<User>(`${this.apiUrl}/me`);
   }
 
-  updatePassword(id: number, passwordData: { currentPassword: string, newPassword: string }): Observable<any> {
-    return this.http.put(`${environment.apiUrl}/auth/password/${id}`, passwordData);
+  updateProfile(userData: { name: string, email: string }): Observable<User> {
+    return this.http.put<User>(`${this.apiUrl}/me`, userData);
   }
 
-  delete(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  updatePassword(passwordData: { currentPassword: string, newPassword: string }): Observable<void> {
+    return this.http.put<void>(`${environment.apiUrl}/auth/password`, passwordData);
+  }
+
+  delete(): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/me`);
   }
 }
