@@ -255,6 +255,11 @@ export class ContactsComponent implements OnInit {
 
 
   exportContacts(): void {
+    if (this.totalItems === 0) {
+      Swal.fire('Aviso', 'Não há contatos para exportar.', 'info');
+      return;
+    }
+
     this.loading = true;
     const allContacts: Contact[] = [];
 
@@ -281,6 +286,11 @@ export class ContactsComponent implements OnInit {
   }
 
   exportToCSV(contacts: Contact[]) {
+    if (!contacts || contacts.length === 0) {
+      Swal.fire('Aviso', 'Não há contatos para exportar.', 'info');
+      return;
+    }
+
     const contactsToExport = contacts.map(contact => ({
       Nome: contact.name,
       Email: contact.email || 'Não informado',
@@ -288,15 +298,32 @@ export class ContactsComponent implements OnInit {
     }));
 
     const header = Object.keys(contactsToExport[0]);
-    const csvContent = [
-      header.join(','),
-      ...contactsToExport.map(contact => Object.values(contact).join(','))
-    ].join('\n');
+    const rows = contactsToExport.map(contact =>
+      header.map(key => this.sanitizeCsvValue((contact as Record<string, unknown>)[key])).join(',')
+    );
+    const csvContent = [header.join(','), ...rows].join('\r\n');
 
-    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const blob = new Blob(['\uFEFF' + csvContent], { type: 'text/csv;charset=utf-8' });
     const link = document.createElement('a');
     link.href = URL.createObjectURL(blob);
     link.download = 'contatos.csv';
     link.click();
+    URL.revokeObjectURL(link.href);
+  }
+
+  private sanitizeCsvValue(value: unknown): string {
+    let str = String(value ?? '');
+
+    if (/^[=+\-@\t\r]/.test(str)) {
+      str = `'${str}`;
+    }
+
+    str = str.replace(/"/g, '""');
+
+    if (/[",\n\r]/.test(str)) {
+      str = `"${str}"`;
+    }
+
+    return str;
   }
 }
