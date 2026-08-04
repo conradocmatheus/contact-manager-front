@@ -1,14 +1,15 @@
 import { TestBed } from '@angular/core/testing';
-import { HttpInterceptorFn } from '@angular/common/http';
 
-import { ngrokInterceptor } from './ngrok.interceptor';
+import { NgrokInterceptor } from './ngrok.interceptor';
 
-describe('ngrokInterceptor', () => {
-  const interceptor: HttpInterceptorFn = (req, next) => 
-    TestBed.runInInjectionContext(() => ngrokInterceptor(req, next));
+describe('NgrokInterceptor', () => {
+  let interceptor: NgrokInterceptor;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({
+      providers: [NgrokInterceptor]
+    });
+    interceptor = TestBed.inject(NgrokInterceptor);
   });
 
   it('should be created', () => {
