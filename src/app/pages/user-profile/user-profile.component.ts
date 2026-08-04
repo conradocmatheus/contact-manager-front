@@ -133,7 +133,7 @@ export class ProfileComponent implements OnInit {
       cancelButtonText: 'Cancelar',
     }).then((result) => {
       if (result.isConfirmed) {
-        this.contactService.deleteAllByUser().subscribe({
+        this.contactService.deleteAllByUser(this.user.id).subscribe({
           next: () => {
             this.toast.success('Contatos removidos com sucesso!', 'Sucesso', 3000);
           },
