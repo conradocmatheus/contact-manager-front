@@ -10,10 +10,6 @@ export class UserService {
 
   constructor(private http: HttpClient) {}
 
-  create(user: User): Observable<User> {
-    return this.http.post<User>(this.apiUrl, user);
-  }
-
   updateProfile(id: number, userData: { name: string, email: string }): Observable<any> {
     return this.http.put(`${this.apiUrl}/${id}`, userData);
   }
