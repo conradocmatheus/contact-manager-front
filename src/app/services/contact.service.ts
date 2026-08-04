@@ -39,6 +39,6 @@ export class ContactService {
   }
 
   deleteAllByUser(): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/all/${userId}`);
+    return this.http.delete<void>(`${this.apiUrl}/all`);
   }
 }
