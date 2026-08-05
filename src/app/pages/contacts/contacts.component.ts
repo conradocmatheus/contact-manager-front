@@ -142,8 +142,17 @@ export class ContactsComponent implements OnInit {
             }
           },
           error: (error) => {
-            Swal.fire('Erro!', 'Ocorreu um erro ao validar o número de telefone.', 'error');
             console.error('Erro na validação:', error);
+            this.contactService.create(result.value).subscribe({
+              next: () => {
+                Swal.fire('Aviso', 'O contato foi criado, mas o telefone não pôde ser validado devido a indisponibilidade da API.', 'info');
+                this.loadContacts();
+              },
+              error: (err) => {
+                Swal.fire('Erro!', 'Ocorreu um erro ao criar o contato.', 'error');
+                console.error('Erro ao criar o contato:', err);
+              }
+            });
           }
         });
       }
@@ -188,8 +197,18 @@ export class ContactsComponent implements OnInit {
             }
           },
           error: (error) => {
-            Swal.fire('Erro!', 'Ocorreu um erro ao validar o número de telefone.', 'error');
             console.error('Erro na validação:', error);
+            const updatedContact = { ...contact, ...result.value };
+            this.contactService.update(updatedContact.id, updatedContact).subscribe({
+              next: () => {
+                Swal.fire('Aviso', 'O contato foi atualizado, mas o telefone não pôde ser validado devido a indisponibilidade da API.', 'info');
+                this.loadContacts();
+              },
+              error: (err) => {
+                Swal.fire('Erro!', 'Ocorreu um erro ao editar o contato.', 'error');
+                console.error('Erro ao editar o contato:', err);
+              }
+            });
           }
         });
       }
