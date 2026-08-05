@@ -6,7 +6,7 @@ import {
 } from '@angular/common/http/testing';
 
 import { ContactService } from './contact.service';
-import { environment } from '../../environments/environment.development';
+import { environment } from '../../environments/environment';
 
 describe('ContactService', () => {
   let service: ContactService;
