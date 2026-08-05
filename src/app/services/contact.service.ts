@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Contact } from '../models/contact';
-import { environment } from '../../environments/environment.development';
+import { environment } from '../../environments/environment';
 
 export interface PaginatedResponse {
   contacts: Contact[];
