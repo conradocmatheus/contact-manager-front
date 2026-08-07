@@ -7,7 +7,7 @@ import { PhoneFormatPipe } from '../../pipes/phone-format.pipe';
 import { Title } from '@angular/platform-browser';
 import Swal from 'sweetalert2';
 import { Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, finalize } from 'rxjs/operators';
 import { PhoneValidatorService } from '../../services/phone-validator.service';
 
 @Component({
@@ -31,6 +31,7 @@ export class ContactsComponent implements OnInit {
   totalItems: number = 0;
   totalPages: number = 0;
   loading: boolean = false;
+  loadError: string | null = null;
 
   constructor(
     private contactService: ContactService,
@@ -59,18 +60,19 @@ export class ContactsComponent implements OnInit {
 
   loadContacts() {
     this.loading = true;
+    this.loadError = null;
 
     this.contactService.getAll(this.currentPage, this.itemsPerPage, this.searchTerm)
+      .pipe(finalize(() => this.loading = false))
       .subscribe({
         next: (data: PaginatedResponse) => {
           this.contacts = data.contacts;
           this.totalItems = data.pagination.total;
           this.totalPages = data.pagination.totalPages;
-          this.loading = false;
         },
         error: (error) => {
           console.error("Erro ao carregar contatos:", error);
-          this.loading = false;
+          this.loadError = 'Não foi possível carregar os contatos. Tente novamente.';
         }
       });
   }
