@@ -1,9 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MainLayoutComponent } from './main-layout.component';
+import { RouterModule } from '@angular/router';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { provideRouter } from '@angular/router';
-
-import { MainLayoutComponent } from './main-layout.component';
+import { NgToastModule } from 'ng-angular-popup';
 
 describe('MainLayoutComponent', () => {
   let component: MainLayoutComponent;
@@ -11,10 +11,9 @@ describe('MainLayoutComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [MainLayoutComponent],
-      providers: [provideHttpClient(), provideHttpClientTesting(), provideRouter([])]
-    })
-    .compileComponents();
+      imports: [MainLayoutComponent, RouterModule.forRoot([]), NgToastModule],
+      providers: [provideHttpClient(), provideHttpClientTesting()]
+    }).compileComponents();
 
     fixture = TestBed.createComponent(MainLayoutComponent);
     component = fixture.componentInstance;

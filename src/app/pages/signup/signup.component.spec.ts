@@ -1,9 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { SignupComponent } from './signup.component';
+import { RouterModule } from '@angular/router';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { provideRouter } from '@angular/router';
-
-import { SignupComponent } from './signup.component';
+import { NgToastModule } from 'ng-angular-popup';
 
 describe('SignupComponent', () => {
   let component: SignupComponent;
@@ -11,10 +11,9 @@ describe('SignupComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SignupComponent],
-      providers: [provideHttpClient(), provideHttpClientTesting(), provideRouter([])]
-    })
-    .compileComponents();
+      imports: [SignupComponent, RouterModule.forRoot([]), NgToastModule],
+      providers: [provideHttpClient(), provideHttpClientTesting()]
+    }).compileComponents();
 
     fixture = TestBed.createComponent(SignupComponent);
     component = fixture.componentInstance;

@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { ContactService, PaginatedResponse } from '../../services/contact.service';
 import { Contact } from '../../models/contact';
 import { FormsModule } from '@angular/forms';
-import {NgForOf, NgIf} from '@angular/common';
+import { NgForOf, NgIf } from '@angular/common';
 import { PhoneFormatPipe } from '../../pipes/phone-format.pipe';
 import { Title } from '@angular/platform-browser';
 import Swal from 'sweetalert2';
-import { Subject } from 'rxjs';
+import { Subject, Observable } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { PhoneValidatorService } from '../../services/phone-validator.service';
 
@@ -106,6 +106,49 @@ export class ContactsComponent implements OnInit {
     }
   }
 
+  private validateAndSave(
+    contactData: any,
+    saveAction: () => Observable<any>,
+    successMessage: string,
+    successTitle: string,
+    fallbackMessage: string
+  ): void {
+    let phone = contactData.phone;
+    phone = "+55" + phone;
+
+    this.phoneValidatorService.validatePhoneNumber(phone).subscribe({
+      next: (validationData) => {
+        if (!validationData.valid) {
+          Swal.fire('Erro!', 'O número de telefone não é válido.', 'error');
+        } else {
+          saveAction().subscribe({
+            next: () => {
+              Swal.fire(successTitle, successMessage, 'success');
+              this.loadContacts();
+            },
+            error: (err) => {
+              Swal.fire('Erro!', 'Ocorreu um erro ao salvar o contato.', 'error');
+              console.error('Erro ao salvar o contato:', err);
+            }
+          });
+        }
+      },
+      error: (error) => {
+        console.error('Erro na validação:', error);
+        saveAction().subscribe({
+          next: () => {
+            Swal.fire('Aviso', fallbackMessage, 'info');
+            this.loadContacts();
+          },
+          error: (err) => {
+            Swal.fire('Erro!', 'Ocorreu um erro ao salvar o contato.', 'error');
+            console.error('Erro ao salvar o contato:', err);
+          }
+        });
+      }
+    });
+  }
+
   createContact(): void {
     Swal.fire({
       title: 'Criar Novo Contato',
@@ -121,40 +164,13 @@ export class ContactsComponent implements OnInit {
       preConfirm: this.handlePreConfirm.bind(this)
     }).then((result) => {
       if (result.isConfirmed && result.value) {
-        let phone = result.value.phone;
-        phone = "+55" + phone;
-
-        this.phoneValidatorService.validatePhoneNumber(phone).subscribe({
-          next: (validationData) => {
-            if (!validationData.valid) {
-              Swal.fire('Erro!', 'O número de telefone não é válido.', 'error');
-            } else {
-              this.contactService.create(result.value).subscribe({
-                next: () => {
-                  Swal.fire('Criado!', 'O contato foi criado com sucesso.', 'success');
-                  this.loadContacts();
-                },
-                error: (err) => {
-                  Swal.fire('Erro!', 'Ocorreu um erro ao criar o contato.', 'error');
-                  console.error('Erro ao criar o contato:', err);
-                }
-              });
-            }
-          },
-          error: (error) => {
-            console.error('Erro na validação:', error);
-            this.contactService.create(result.value).subscribe({
-              next: () => {
-                Swal.fire('Aviso', 'O contato foi criado, mas o telefone não pôde ser validado devido a indisponibilidade da API.', 'info');
-                this.loadContacts();
-              },
-              error: (err) => {
-                Swal.fire('Erro!', 'Ocorreu um erro ao criar o contato.', 'error');
-                console.error('Erro ao criar o contato:', err);
-              }
-            });
-          }
-        });
+        this.validateAndSave(
+          result.value,
+          () => this.contactService.create(result.value),
+          'O contato foi criado com sucesso.',
+          'Criado!',
+          'O contato foi criado, mas o telefone não pôde ser validado devido a indisponibilidade da API.'
+        );
       }
     });
   }
@@ -174,43 +190,14 @@ export class ContactsComponent implements OnInit {
       preConfirm: this.handlePreConfirm.bind(this)
     }).then((result) => {
       if (result.isConfirmed && result.value) {
-        let phone = result.value.phone;
-        phone = "+55" + phone;
-
-        this.phoneValidatorService.validatePhoneNumber(phone).subscribe({
-          next: (validationData) => {
-            if (!validationData.valid) {
-              Swal.fire('Erro!', 'O número de telefone não é válido.', 'error');
-            } else {
-              const updatedContact = { ...contact, ...result.value };
-
-              this.contactService.update(updatedContact.id, updatedContact).subscribe({
-                next: () => {
-                  Swal.fire('Atualizado!', 'O contato foi editado com sucesso.', 'success');
-                  this.loadContacts();
-                },
-                error: (err) => {
-                  Swal.fire('Erro!', 'Ocorreu um erro ao editar o contato.', 'error');
-                  console.error('Erro ao editar o contato:', err);
-                }
-              });
-            }
-          },
-          error: (error) => {
-            console.error('Erro na validação:', error);
-            const updatedContact = { ...contact, ...result.value };
-            this.contactService.update(updatedContact.id, updatedContact).subscribe({
-              next: () => {
-                Swal.fire('Aviso', 'O contato foi atualizado, mas o telefone não pôde ser validado devido a indisponibilidade da API.', 'info');
-                this.loadContacts();
-              },
-              error: (err) => {
-                Swal.fire('Erro!', 'Ocorreu um erro ao editar o contato.', 'error');
-                console.error('Erro ao editar o contato:', err);
-              }
-            });
-          }
-        });
+        const updatedContact = { ...contact, ...result.value };
+        this.validateAndSave(
+          result.value,
+          () => this.contactService.update(updatedContact.id, updatedContact),
+          'O contato foi editado com sucesso.',
+          'Atualizado!',
+          'O contato foi atualizado, mas o telefone não pôde ser validado devido a indisponibilidade da API.'
+        );
       }
     });
   }
