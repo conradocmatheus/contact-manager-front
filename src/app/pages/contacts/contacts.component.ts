@@ -30,7 +30,6 @@ export class ContactsComponent implements OnInit {
   itemsPerPage: number = 10;
   totalItems: number = 0;
   totalPages: number = 0;
-  userId: string = '';
   loading: boolean = false;
 
   constructor(
@@ -59,18 +58,9 @@ export class ContactsComponent implements OnInit {
   }
 
   loadContacts() {
-    const userData = localStorage.getItem("user");
-
-    if (!userData) {
-      console.error("Usuário não está logado!");
-      return;
-    }
-
-    const user = JSON.parse(userData);
-    this.userId = user.id;
     this.loading = true;
 
-    this.contactService.getAllByUser(this.userId, this.currentPage, this.itemsPerPage, this.searchTerm)
+    this.contactService.getAll(this.currentPage, this.itemsPerPage, this.searchTerm)
       .subscribe({
         next: (data: PaginatedResponse) => {
           this.contacts = data.contacts;
@@ -235,7 +225,7 @@ export class ContactsComponent implements OnInit {
     });
   }
 
-  private handlePreConfirm(): { name: string; email: string; phone: string, userId: number } | null {
+  private handlePreConfirm(): { name: string; email: string; phone: string } | null {
     const name = (document.getElementById('swal-name') as HTMLInputElement).value;
     const email = (document.getElementById('swal-email') as HTMLInputElement).value;
     const phone = (document.getElementById('swal-phone') as HTMLInputElement).value;
@@ -246,15 +236,7 @@ export class ContactsComponent implements OnInit {
       return null;
     }
 
-    const userData = localStorage.getItem('user');
-    if (!userData) {
-      console.error("Usuário não está logado!");
-      return null;
-    }
-    const user = JSON.parse(userData);
-    const userId = user.id;
-
-    return { name, email, phone: formattedPhone, userId };
+    return { name, email, phone: formattedPhone };
   }
 
 
@@ -283,7 +265,7 @@ export class ContactsComponent implements OnInit {
     const allContacts: Contact[] = [];
 
     const loadAllContacts = (page: number) => {
-      this.contactService.getAllByUser(this.userId, page, this.itemsPerPage, this.searchTerm).subscribe({
+      this.contactService.getAll(page, this.itemsPerPage, this.searchTerm).subscribe({
         next: (data: PaginatedResponse) => {
           allContacts.push(...data.contacts);
 
