@@ -73,7 +73,6 @@ export class ProfileComponent implements OnInit {
 
     this.isLoading = true;
     const { name, email, currentPassword, newPassword } = this.profileForm.value;
-
     this.userService.updateProfile({ name, email }).subscribe({
       next: (updatedUser) => {
         this.user = { ...this.user, name, email };
@@ -133,7 +132,7 @@ export class ProfileComponent implements OnInit {
       cancelButtonText: 'Cancelar',
     }).then((result) => {
       if (result.isConfirmed) {
-        this.contactService.deleteAllByUser().subscribe({
+        this.contactService.deleteAll().subscribe({
           next: () => {
             this.toast.success('Contatos removidos com sucesso!', 'Sucesso', 3000);
           },

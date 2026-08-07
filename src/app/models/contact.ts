@@ -5,3 +5,5 @@ export interface Contact {
   phone: string;
   userId: number;
 }
+
+export type ContactInput = Pick<Contact, 'name' | 'email' | 'phone'>;

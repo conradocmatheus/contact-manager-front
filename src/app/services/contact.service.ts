@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Contact } from '../models/contact';
+import { Contact, ContactInput } from '../models/contact';
 import { environment } from '../../environments/environment';
 
 export interface PaginatedResponse {
@@ -20,17 +20,20 @@ export class ContactService {
 
   constructor(private http: HttpClient) {}
 
-  getAllByUser(userId: string, page: number = 1, limit: number = 10, search: string = ''): Observable<PaginatedResponse> {
-    return this.http.get<PaginatedResponse>(
-      `${this.apiUrl}/by-user/${userId}?page=${page}&limit=${limit}&search=${search}`
-    );
+  getAll(page: number = 1, limit: number = 10, search: string = ''): Observable<PaginatedResponse> {
+    const params = new HttpParams()
+      .set('page', page)
+      .set('limit', limit)
+      .set('search', search);
+
+    return this.http.get<PaginatedResponse>(this.apiUrl, { params });
   }
 
-  create(contact: Contact): Observable<Contact> {
+  create(contact: ContactInput): Observable<Contact> {
     return this.http.post<Contact>(this.apiUrl, contact);
   }
 
-  update(id: number, contact: Contact): Observable<Contact> {
+  update(id: number, contact: ContactInput): Observable<Contact> {
     return this.http.put<Contact>(`${this.apiUrl}/${id}`, contact);
   }
 
@@ -38,7 +41,7 @@ export class ContactService {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 
-  deleteAllByUser(): Observable<void> {
+  deleteAll(): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/all`);
   }
 }

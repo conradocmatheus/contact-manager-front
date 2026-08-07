@@ -23,6 +23,10 @@ describe('UserService', () => {
 
   afterEach(() => httpTesting.verify());
 
+  it('should be created', () => {
+    expect(service).toBeTruthy();
+  });
+
   it('uses ID-free endpoints for authenticated profile operations', () => {
     service.getProfile().subscribe();
     const getRequest = httpTesting.expectOne(`${environment.apiUrl}/users/me`);
