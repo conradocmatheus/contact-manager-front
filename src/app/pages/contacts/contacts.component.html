@@ -41,6 +41,10 @@
     <p class="mt-2 text-secondary">Carregando contatos...</p>
   </div>
 
+  <div class="notification is-danger is-light" *ngIf="loadError && !loading" role="alert">
+    {{ loadError }}
+  </div>
+
   <div class="table-container" *ngIf="!loading">
     <table class="table is-fullwidth">
       <thead>

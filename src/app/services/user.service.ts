@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { User } from '../models/user';
 import { environment } from '../../environments/environment';
@@ -10,19 +10,19 @@ export class UserService {
 
   constructor(private http: HttpClient) {}
 
-  create(user: User): Observable<User> {
-    return this.http.post<User>(this.apiUrl, user);
+  getProfile(): Observable<User> {
+    return this.http.get<User>(`${this.apiUrl}/me`);
   }
 
-  updateProfile(id: number, userData: { name: string, email: string }): Observable<any> {
-    return this.http.put(`${this.apiUrl}/${id}`, userData);
+  updateProfile(userData: { name: string, email: string }): Observable<User> {
+    return this.http.put<User>(`${this.apiUrl}/me`, userData);
   }
 
-  updatePassword(id: number, passwordData: { currentPassword: string, newPassword: string }): Observable<any> {
-    return this.http.put(`${environment.apiUrl}/auth/password/${id}`, passwordData);
+  updatePassword(passwordData: { currentPassword: string, newPassword: string }): Observable<void> {
+    return this.http.put<void>(`${environment.apiUrl}/auth/password`, passwordData);
   }
 
-  delete(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  delete(): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/me`);
   }
 }

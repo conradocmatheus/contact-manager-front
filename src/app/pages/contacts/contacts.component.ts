@@ -7,7 +7,7 @@ import { PhoneFormatPipe } from '../../pipes/phone-format.pipe';
 import { Title } from '@angular/platform-browser';
 import Swal from 'sweetalert2';
 import { Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, finalize } from 'rxjs/operators';
 import { PhoneValidatorService } from '../../services/phone-validator.service';
 
 @Component({
@@ -30,8 +30,8 @@ export class ContactsComponent implements OnInit {
   itemsPerPage: number = 10;
   totalItems: number = 0;
   totalPages: number = 0;
-  userId: string = '';
   loading: boolean = false;
+  loadError: string | null = null;
 
   constructor(
     private contactService: ContactService,
@@ -59,28 +59,20 @@ export class ContactsComponent implements OnInit {
   }
 
   loadContacts() {
-    const userData = localStorage.getItem("user");
-
-    if (!userData) {
-      console.error("Usuário não está logado!");
-      return;
-    }
-
-    const user = JSON.parse(userData);
-    this.userId = user.id;
     this.loading = true;
+    this.loadError = null;
 
-    this.contactService.getAllByUser(this.userId, this.currentPage, this.itemsPerPage, this.searchTerm)
+    this.contactService.getAll(this.currentPage, this.itemsPerPage, this.searchTerm)
+      .pipe(finalize(() => this.loading = false))
       .subscribe({
         next: (data: PaginatedResponse) => {
           this.contacts = data.contacts;
           this.totalItems = data.pagination.total;
           this.totalPages = data.pagination.totalPages;
-          this.loading = false;
         },
         error: (error) => {
           console.error("Erro ao carregar contatos:", error);
-          this.loading = false;
+          this.loadError = 'Não foi possível carregar os contatos. Tente novamente.';
         }
       });
   }
@@ -235,7 +227,7 @@ export class ContactsComponent implements OnInit {
     });
   }
 
-  private handlePreConfirm(): { name: string; email: string; phone: string, userId: number } | null {
+  private handlePreConfirm(): { name: string; email: string; phone: string } | null {
     const name = (document.getElementById('swal-name') as HTMLInputElement).value;
     const email = (document.getElementById('swal-email') as HTMLInputElement).value;
     const phone = (document.getElementById('swal-phone') as HTMLInputElement).value;
@@ -246,15 +238,7 @@ export class ContactsComponent implements OnInit {
       return null;
     }
 
-    const userData = localStorage.getItem('user');
-    if (!userData) {
-      console.error("Usuário não está logado!");
-      return null;
-    }
-    const user = JSON.parse(userData);
-    const userId = user.id;
-
-    return { name, email, phone: formattedPhone, userId };
+    return { name, email, phone: formattedPhone };
   }
 
 
@@ -283,7 +267,7 @@ export class ContactsComponent implements OnInit {
     const allContacts: Contact[] = [];
 
     const loadAllContacts = (page: number) => {
-      this.contactService.getAllByUser(this.userId, page, this.itemsPerPage, this.searchTerm).subscribe({
+      this.contactService.getAll(page, this.itemsPerPage, this.searchTerm).subscribe({
         next: (data: PaginatedResponse) => {
           allContacts.push(...data.contacts);
 
