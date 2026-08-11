@@ -33,3 +33,24 @@
   width: 100%;
   justify-content: center;
 }
+
+@media screen and (max-width: 768px) {
+  .profile-container {
+    max-width: 90%;
+    padding: 0;
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .profile-card {
+    padding: 1.25rem !important;
+  }
+
+  .profile-avatar .title {
+    font-size: 1.3rem !important;
+  }
+
+  .profile-avatar .subtitle {
+    font-size: 0.9rem;
+  }
+}

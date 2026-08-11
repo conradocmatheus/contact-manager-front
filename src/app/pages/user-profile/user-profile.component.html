@@ -1,10 +1,10 @@
 <div class="profile-container">
   <div class="card-section profile-card">
-    <div class="profile-avatar">
+    <div class="profile-avatar mt-4">
       <span class="icon is-large avatar-icon">
         <i class="fas fa-user-circle fa-4x"></i>
       </span>
-      <h1 class="title is-3 mt-2">Meu Perfil</h1>
+      <h1 class="title is-3 m-4">Meu Perfil</h1>
       <p class="subtitle is-6">Gerencie suas informações pessoais e credenciais</p>
     </div>
 
@@ -53,7 +53,8 @@
             <i class="fas fa-key"></i>
           </span>
         </div>
-        <p class="help is-danger" *ngIf="profileForm.get('newPassword')?.errors?.['minlength']">A senha deve ter pelo menos 6 caracteres</p>
+        <p class="help is-danger" *ngIf="profileForm.get('newPassword')?.errors?.['minlength']">A senha deve ter pelo
+          menos 6 caracteres</p>
       </div>
 
       <div class="field">
