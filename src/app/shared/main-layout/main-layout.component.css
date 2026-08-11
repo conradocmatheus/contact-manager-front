@@ -42,7 +42,24 @@
 }
 
 @media screen and (max-width: 768px) {
+  .layout-columns {
+    flex-direction: column !important;
+  }
+
+  .sidebar-container {
+    width: 100% !important;
+    flex: none !important;
+  }
+
   .main-content-container {
-    padding: 1rem 1.25rem;
+    padding: 1rem 1rem !important;
+    padding-top: 72px !important; /* Space for mobile fixed header (56px + 16px) */
+    min-height: calc(100vh - 56px);
+  }
+
+  .welcome-title {
+    font-size: 1.35rem;
+    padding-top: 0.5rem;
+    padding-left: 0;
   }
 }

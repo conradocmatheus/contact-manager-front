@@ -186,3 +186,74 @@ h1, h2, h3, h4, h5, h6,
 .table tr:hover {
   background-color: #f8fafc !important;
 }
+
+/* ============================
+   SweetAlert2 Modal - Mobile Responsive
+   ============================ */
+@media screen and (max-width: 768px) {
+  /* Modal popup - ocupa mais espaço na tela */
+  .swal2-popup {
+    width: 92vw !important;
+    max-width: 92vw !important;
+    padding: 1.25rem 1rem !important;
+    font-size: 0.95rem !important;
+    margin: 0 auto !important;
+  }
+
+  /* Título do modal */
+  .swal2-title {
+    font-size: 1.25rem !important;
+    padding: 0.5rem 0 !important;
+  }
+
+  /* Container HTML (onde ficam os inputs) */
+  .swal2-html-container {
+    margin: 0.5rem 0 !important;
+    padding: 0 !important;
+  }
+
+  /* Inputs dentro do modal */
+  .swal2-input {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0.5rem 0 !important;
+    padding: 0.65rem 0.75rem !important;
+    font-size: 0.95rem !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Área de botões */
+  .swal2-actions {
+    flex-wrap: wrap !important;
+    gap: 0.5rem !important;
+    padding: 0.5rem 0 !important;
+  }
+
+  /* Botões do modal - largura total em mobile */
+  .swal2-confirm,
+  .swal2-cancel,
+  .swal2-deny {
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0.65rem 1rem !important;
+    font-size: 0.95rem !important;
+  }
+
+  /* Ícone do modal */
+  .swal2-icon {
+    width: 60px !important;
+    height: 60px !important;
+    margin: 0.75rem auto !important;
+  }
+
+  .swal2-icon .swal2-icon-content {
+    font-size: 2.5rem !important;
+  }
+
+  /* Mensagem de validação */
+  .swal2-validation-message {
+    font-size: 0.85rem !important;
+    padding: 0.5rem !important;
+    margin: 0.25rem 0 !important;
+  }
+}

@@ -1,4 +1,49 @@
-<aside class="menu is-shadow" style="height: 100vh; padding: 1rem;">
+<!-- Mobile Header -->
+<header class="mobile-header">
+  <span class="mobile-logo">Contact Manager</span>
+  <button class="hamburger-btn" (click)="toggleSidebar()" [class.is-open]="isSidebarVisible" aria-label="Abrir menu">
+    <img
+      src="https://cdn.jsdelivr.net/npm/heroicons@2.0.18/24/outline/bars-3.svg"
+      alt="Menu"
+      class="hamburger-icon"
+      *ngIf="!isSidebarVisible"
+    />
+    <img
+      src="https://cdn.jsdelivr.net/npm/heroicons@2.0.18/24/outline/x-mark.svg"
+      alt="Fechar"
+      class="hamburger-icon"
+      *ngIf="isSidebarVisible"
+    />
+  </button>
+</header>
+
+<!-- Mobile Dropdown Menu -->
+<div class="mobile-dropdown" [class.is-open]="isSidebarVisible">
+  <nav class="mobile-nav">
+    <a routerLink="/home" routerLinkActive="is-active" [routerLinkActiveOptions]="{exact: true}" (click)="closeSidebar()">
+      <span class="icon"><i class="fas fa-home"></i></span>
+      <span>Home</span>
+    </a>
+    <a routerLink="/contacts" routerLinkActive="is-active" [routerLinkActiveOptions]="{exact: true}" (click)="closeSidebar()">
+      <span class="icon"><i class="fas fa-address-book"></i></span>
+      <span>Contatos</span>
+    </a>
+    <a routerLink="/profile" routerLinkActive="is-active" [routerLinkActiveOptions]="{exact: true}" (click)="closeSidebar()">
+      <span class="icon"><i class="fas fa-user"></i></span>
+      <span>Perfil</span>
+    </a>
+    <a routerLink="/about" routerLinkActive="is-active" [routerLinkActiveOptions]="{exact: true}" (click)="closeSidebar()">
+      <span class="icon"><i class="fas fa-info-circle"></i></span>
+      <span>Sobre</span>
+    </a>
+  </nav>
+</div>
+
+<!-- Mobile Overlay -->
+<div class="mobile-overlay" [class.is-visible]="isSidebarVisible" (click)="closeSidebar()"></div>
+
+<!-- Desktop Sidebar -->
+<aside class="menu is-shadow desktop-sidebar">
   <p class="menu-label">Contact Manager</p>
   <ul class="menu-list">
     <li class="sidebar-item">

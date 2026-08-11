@@ -92,9 +92,24 @@
 }
 
 @media (max-width: 768px) {
+  .contacts-container {
+    padding: 1rem;
+    gap: 1rem;
+  }
+
+  .contacts-header .title {
+    font-size: 1.3rem !important;
+  }
+
   .actions-toolbar {
     flex-direction: column;
     align-items: stretch;
+    padding: 1rem;
+  }
+
+  .search-control {
+    min-width: unset;
+    width: 100%;
   }
 
   .buttons-group {
@@ -104,5 +119,22 @@
 
   .buttons-group .button {
     width: 100%;
+  }
+
+  .table-container {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .table th,
+  .table td {
+    font-size: 0.85rem !important;
+    padding: 0.75rem 0.75rem !important;
+    white-space: nowrap;
+  }
+
+  .pagination-wrapper nav.pagination {
+    flex-wrap: wrap;
+    gap: 0.5rem;
   }
 }
