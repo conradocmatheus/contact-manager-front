@@ -74,7 +74,7 @@ export class ProfileComponent implements OnInit {
     this.isLoading = true;
     const { name, email, currentPassword, newPassword } = this.profileForm.value;
     this.userService.updateProfile({ name, email }).subscribe({
-      next: (updatedUser) => {
+      next: (_updatedUser) => {
         this.user = { ...this.user, name, email };
         this.authService.updateCurrentUser(this.user);
 
@@ -172,7 +172,7 @@ export class ProfileComponent implements OnInit {
           localStorage.removeItem("user");
           Swal.fire("Deletado!", "Sua conta foi excluída.", "success");
           this.router.navigate(['/signup']);
-        }, error => {
+        }, _error => {
           Swal.fire("Erro!", "Ocorreu um erro ao excluir a conta.", "error");
         });
       }
