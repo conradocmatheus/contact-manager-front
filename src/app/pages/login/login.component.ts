@@ -5,7 +5,7 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { AuthService } from '../../services/auth.service';
-import { NgToastService, ToasterPosition, ToastType } from 'ng-angular-popup';
+import { NgToastService } from 'ng-angular-popup';
 
 @Component({
   selector: 'app-login',

@@ -30,7 +30,8 @@ export class AuthService {
   }
 
   updateCurrentUser(user: any): void {
-    const { password, ...userWithoutPassword } = user;
+    const userWithoutPassword = { ...user };
+    delete userWithoutPassword.password;
     localStorage.setItem('user', JSON.stringify(userWithoutPassword));
   }
 
