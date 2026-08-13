@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { SidebarComponent } from './shared/sidebar/sidebar.component';
 import {RouterOutlet} from '@angular/router';
 import {NgToastModule} from 'ng-angular-popup';
 

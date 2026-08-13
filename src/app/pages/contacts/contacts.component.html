@@ -88,25 +88,25 @@
       <button class="pagination-next" [disabled]="currentPage === totalPages" (click)="nextPage()">Próxima</button>
       <ul class="pagination-list">
         <li *ngIf="currentPage > 2">
-          <a class="pagination-link" (click)="goToPage(1)">1</a>
+          <button type="button" class="pagination-link" (click)="goToPage(1)">1</button>
         </li>
         <li *ngIf="currentPage > 3">
           <span class="pagination-ellipsis">&hellip;</span>
         </li>
         <li *ngIf="currentPage > 1">
-          <a class="pagination-link" (click)="goToPage(currentPage - 1)">{{ currentPage - 1 }}</a>
+          <button type="button" class="pagination-link" (click)="goToPage(currentPage - 1)">{{ currentPage - 1 }}</button>
         </li>
         <li>
           <a class="pagination-link is-current">{{ currentPage }}</a>
         </li>
         <li *ngIf="currentPage < totalPages">
-          <a class="pagination-link" (click)="goToPage(currentPage + 1)">{{ currentPage + 1 }}</a>
+          <button type="button" class="pagination-link" (click)="goToPage(currentPage + 1)">{{ currentPage + 1 }}</button>
         </li>
         <li *ngIf="currentPage < totalPages - 2">
           <span class="pagination-ellipsis">&hellip;</span>
         </li>
         <li *ngIf="currentPage < totalPages - 1">
-          <a class="pagination-link" (click)="goToPage(totalPages)">{{ totalPages }}</a>
+          <button type="button" class="pagination-link" (click)="goToPage(totalPages)">{{ totalPages }}</button>
         </li>
       </ul>
     </nav>

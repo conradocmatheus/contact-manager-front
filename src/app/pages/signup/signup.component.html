@@ -4,26 +4,26 @@
     <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
 
       <div class="field">
-        <label class="label">Nome</label>
+        <label class="label" for="signup-name">Nome</label>
         <div class="control">
-          <input class="input" type="text" formControlName="name" placeholder="Digite seu nome">
+          <input id="signup-name" class="input" type="text" formControlName="name" placeholder="Digite seu nome">
         </div>
         <p class="help is-danger" *ngIf="signupForm.get('name')?.errors?.['required']">Nome é obrigatório</p>
       </div>
 
       <div class="field">
-        <label class="label">Email</label>
+        <label class="label" for="signup-email">Email</label>
         <div class="control">
-          <input class="input" type="email" formControlName="email" placeholder="Digite seu email">
+          <input id="signup-email" class="input" type="email" formControlName="email" placeholder="Digite seu email">
         </div>
         <p class="help is-danger" *ngIf="signupForm.get('email')?.errors?.['required']">Email é obrigatório</p>
         <p class="help is-danger" *ngIf="signupForm.get('email')?.errors?.['email']">Email inválido</p>
       </div>
 
       <div class="field">
-        <label class="label">Senha</label>
+        <label class="label" for="signup-password">Senha</label>
         <div class="control">
-          <input class="input" type="password" formControlName="password" placeholder="Digite sua senha">
+          <input id="signup-password" class="input" type="password" formControlName="password" placeholder="Digite sua senha">
         </div>
         <p class="help is-danger" *ngIf="signupForm.get('password')?.errors?.['required']">Senha é obrigatória</p>
       </div>

@@ -40,7 +40,13 @@
 </div>
 
 <!-- Mobile Overlay -->
-<div class="mobile-overlay" [class.is-visible]="isSidebarVisible" (click)="closeSidebar()"></div>
+<button
+  type="button"
+  class="mobile-overlay"
+  [class.is-visible]="isSidebarVisible"
+  (click)="closeSidebar()"
+  aria-label="Fechar menu"
+></button>
 
 <!-- Desktop Sidebar -->
 <aside class="menu is-shadow desktop-sidebar">
